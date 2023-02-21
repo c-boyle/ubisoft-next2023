@@ -1,15 +1,4 @@
-﻿  app.cpp
-c1xx : fatal error C1083: Cannot open source file: 'App\app.cpp': No such file or directory
-  main.cpp
-c1xx : fatal error C1083: Cannot open source file: 'App\main.cpp': No such file or directory
-  SimpleController.cpp
-c1xx : fatal error C1083: Cannot open source file: 'App\SimpleController.cpp': No such file or directory
-  SimpleSound.cpp
-c1xx : fatal error C1083: Cannot open source file: 'App\SimpleSound.cpp': No such file or directory
-  SimpleSprite.cpp
-c1xx : fatal error C1083: Cannot open source file: 'App\SimpleSprite.cpp': No such file or directory
-  TextureLoader.cpp
-c1xx : fatal error C1083: Cannot open source file: 'App\TextureLoader.cpp': No such file or directory
-  GameTest.cpp
-C:\Users\Caleb\Desktop\UbisoftNext\NEXT-API\NEXT-API\UbisoftToronto-NEXT-API\NEXT-API\GameTest\GameTest.cpp(9,10): fatal error C1083: Cannot open include file: 'app\app.h': No such file or directory
-  Generating Code...
+﻿  GameTest.cpp
+  GameTest.vcxproj -> C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\x64\Debug\GameTest.exe
+  C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\\GameTest\glut\bin\x64\freeglut.dll
+  1 File(s) copied

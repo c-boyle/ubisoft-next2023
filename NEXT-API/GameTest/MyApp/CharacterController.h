@@ -5,7 +5,7 @@
 #define _CHARACTERCONTROLLER_H
 
 #include "..\stdafx.h"
-#include "..\App\app.h"
+#include "../App/SimpleSprite.h"
 #include <memory>
 
 enum
@@ -31,7 +31,7 @@ private:
 	void AnimateMoveY(float moveY);
 
 private:
-	std::unique_ptr<CSimpleSprite> sprite;
+	std::unique_ptr<CSimpleSprite> m_sprite;
 };
 
 #endif

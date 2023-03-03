@@ -8,6 +8,8 @@
 #include <memory>
 //------------------------------------------------------------------------
 #include "app\app.h"
+#include "MyApp/CharacterController.h"
+#include "MyApp/GameLevel.h"
 #include "MyApp/MyApp.h"
 //------------------------------------------------------------------------
 
@@ -23,6 +25,7 @@ std::unique_ptr<CCharacterController> character;
 void Init()
 {
 	character = std::unique_ptr<CCharacterController>(new CCharacterController());
+	CGameLevel::GetInstance().GenerateLevel(0);
 }
 
 //------------------------------------------------------------------------
@@ -41,7 +44,7 @@ void Update(float deltaTime)
 void Render()
 {	
 	MyApp::DrawBox(0.0F, 0.0F, APP_VIRTUAL_HEIGHT, APP_VIRTUAL_WIDTH, 0.0F, 50.0F, 100.0F);
-
+	CGameLevel::GetInstance().Render();
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
 	character->Render();

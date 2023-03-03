@@ -5,8 +5,7 @@
 #define _MYAPP_H
 
 #include "..\stdafx.h"
-#include "..\App\app.h"
-#include "CharacterController.h"
+
 
 namespace MyApp 
 {

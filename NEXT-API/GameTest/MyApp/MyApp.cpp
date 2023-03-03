@@ -3,6 +3,7 @@
 //------------------------------------------------------------------------
 #include "stdafx.h"
 #include "MyApp.h"
+#include "../App/app.h"
 
 namespace MyApp 
 {

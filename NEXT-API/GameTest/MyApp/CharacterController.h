@@ -27,6 +27,8 @@ private:
 	void Move(float moveX, float moveY);
 	void HandleInput();
 	void AnimateMove(float moveX, float moveY);
+	void AnimateMoveX(float moveX);
+	void AnimateMoveY(float moveY);
 
 private:
 	std::unique_ptr<CSimpleSprite> sprite;

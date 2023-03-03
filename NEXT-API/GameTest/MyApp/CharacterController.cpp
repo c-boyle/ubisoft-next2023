@@ -9,20 +9,15 @@ constexpr float speed = 1.3F;
 
 CCharacterController::CCharacterController()
 {
-	auto sp = App::CreateSprite(".\\TestData\\Test.bmp", 8, 4);
+	auto sp = App::CreateSprite(".\\MyData\\Player.bmp", 2, 2);
 	sprite = std::unique_ptr<CSimpleSprite>(sp);
-	sprite->SetPosition(400.0f, 400.0f);
-	float speed = 1.0f / 15.0f;
-	sprite->CreateAnimation(ANIM_BACKWARDS, speed, { 0,1,2,3,4,5,6,7 });
-	sprite->CreateAnimation(ANIM_LEFT, speed, { 8,9,10,11,12,13,14,15 });
-	sprite->CreateAnimation(ANIM_RIGHT, speed, { 16,17,18,19,20,21,22,23 });
-	sprite->CreateAnimation(ANIM_FORWARDS, speed, { 24,25,26,27,28,29,30,31 });
+	sprite->SetPosition(APP_VIRTUAL_WIDTH / 2, APP_VIRTUAL_HEIGHT / 2);
 	sprite->SetScale(1.0f);
 }
 
 void CCharacterController::Update(float deltaTime)
 {
-	sprite->Update(deltaTime);
+	//sprite->Update(deltaTime);
 	HandleInput();
 }
 
@@ -40,17 +35,31 @@ void CCharacterController::Move(float moveX, float moveY)
 
 void CCharacterController::AnimateMove(float moveX, float moveY)
 {
+	if (abs(moveX) > abs(moveY)) {
+		AnimateMoveX(moveX);
+	}
+	else {
+		AnimateMoveY(moveY);
+	}
+}
+
+void CCharacterController::AnimateMoveX(float moveX)
+{
 	if (moveX > 0.0F) {
-		sprite->SetAnimation(ANIM_RIGHT);
+		sprite->SetFrame(ANIM_RIGHT);
 	}
 	else if (moveX < 0.0F) {
-		sprite->SetAnimation(ANIM_LEFT);
+		sprite->SetFrame(ANIM_LEFT);
 	}
+}
+
+void CCharacterController::AnimateMoveY(float moveY)
+{
 	if (moveY > 0.0F) {
-		sprite->SetAnimation(ANIM_FORWARDS);
+		sprite->SetFrame(ANIM_BACKWARDS);
 	}
 	else if (moveY < 0.0F) {
-		sprite->SetAnimation(ANIM_BACKWARDS);
+		sprite->SetFrame(ANIM_FORWARDS);
 	}
 }
 

@@ -8,6 +8,8 @@
 #include "LevelObject.h"
 #include <memory>
 
+constexpr int cellSize = 32;
+
 class CLevelCell : public CLevelObject {
 public:
 	void SetContainedObject(CLevelObject *objectToContain) { m_containedObject = std::unique_ptr<CLevelObject>(objectToContain); };

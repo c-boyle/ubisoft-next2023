@@ -18,7 +18,7 @@ public:
 	CBomb(float detonationTime);
 	void Update(float dt);
 	virtual void Detonate() = 0;
-	virtual float GetCooldown() = 0;
+	virtual float GetDetonationTime() { return m_detonationTime; };
 	virtual std::unique_ptr<CBomb> GetCopy() = 0;
 
 	// Inherited via CLevelObject

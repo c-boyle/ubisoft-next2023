@@ -11,14 +11,14 @@
 
 class CBombDispenser {
 public:
-	CBombDispenser(std::unique_ptr<CBomb> bomb) : m_bomb(std::move(bomb)) {};
+	CBombDispenser(std::unique_ptr<CBomb> bomb, int maxActiveBombs) : m_bomb(std::move(bomb)), m_maxActiveBombs(maxActiveBombs) {};
 	void Dispense(float x, float y);
 	void Update(float dt);
 	void Render();
 
 private:
 	std::vector<std::unique_ptr<CBomb>> m_activeBombs;
-	std::vector<float> m_activeBombCooldowns;
+	std::vector<float> m_activeBombTimers;
 	std::unique_ptr<CBomb> m_bomb;
 	float m_cooldownMultiplier = 1.0F;
 	int m_maxActiveBombs = 1;

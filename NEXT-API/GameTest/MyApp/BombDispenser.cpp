@@ -18,7 +18,7 @@ void CBombDispenser::Dispense(float x, float y)
 		}
 		std::unique_ptr<CBomb> bomb = m_bomb->GetCopy();
 		bomb->Init(row, col);
-		m_activeBombCooldowns.push_back(bomb->GetCooldown());
+		m_activeBombTimers.push_back(bomb->GetDetonationTime());
 		m_activeBombs.push_back(std::move(bomb));
 	}
 }
@@ -26,15 +26,15 @@ void CBombDispenser::Dispense(float x, float y)
 void CBombDispenser::Update(float dt)
 {
 	std::vector<int> elementsToRemove;
-	for (int i = 0; i < m_activeBombCooldowns.size(); i++) {
-		m_activeBombCooldowns[i] -= dt;
-		if (m_activeBombCooldowns[i] <= 0.0F) {
+	for (int i = 0; i < m_activeBombTimers.size(); i++) {
+		m_activeBombTimers[i] -= dt;
+		if (m_activeBombTimers[i] <= 0.0F) {
 			m_activeBombs[i]->Detonate();
 			elementsToRemove.push_back(i);
 		}
 	}
 	for (auto index : elementsToRemove) {
-		m_activeBombCooldowns.erase(m_activeBombCooldowns.begin() + index);
+		m_activeBombTimers.erase(m_activeBombTimers.begin() + index);
 		m_activeBombs.erase(m_activeBombs.begin() + index);
 	}
 }

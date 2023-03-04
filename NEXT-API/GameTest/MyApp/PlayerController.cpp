@@ -8,8 +8,8 @@
 
 CPlayerController::CPlayerController()
 {
-	m_basicDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(1.0F, 1))));
-	m_specialDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(1.0F, 2))));
+	m_basicDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(10000.0F, 1)), 2));
+	m_specialDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(10000.0F, 2)), 1));
 }
 
 void CPlayerController::Render()

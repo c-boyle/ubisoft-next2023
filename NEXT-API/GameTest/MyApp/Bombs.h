@@ -12,7 +12,6 @@ public:
 	CAxisBomb(float detonationTime, int range);
 	// Inherited via CBomb
 	virtual std::unique_ptr<CBomb> GetCopy() override;
-	virtual float GetCooldown() override;
 	virtual void Detonate() override;
 
 private:

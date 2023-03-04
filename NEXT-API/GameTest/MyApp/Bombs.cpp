@@ -9,11 +9,6 @@
 
 CAxisBomb::CAxisBomb(float detonationTime, int range) : CBomb(detonationTime), m_range(range) { }
 
-float CAxisBomb::GetCooldown()
-{
-	return 1000.0F;
-}
-
 void CAxisBomb::Detonate()
 {
 	bool leftBlocked = false;

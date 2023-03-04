@@ -1,9 +1,11 @@
 //---------------------------------------------------------------------------------
-// AxisBomb.cpp
+// Bombs.cpp
 //---------------------------------------------------------------------------------
 #include "stdafx.h"
-#include "AxisBomb.h"
+#include "Bombs.h"
 #include "GameLevel.h"
+
+#pragma region AxisBomb
 
 CAxisBomb::CAxisBomb(float detonationTime, int range) : CBomb(detonationTime), m_range(range) { }
 
@@ -33,3 +35,11 @@ void CAxisBomb::Detonate()
 		}
 	}
 }
+
+std::unique_ptr<CBomb> CAxisBomb::GetCopy()
+{
+	return std::make_unique<CAxisBomb>(CAxisBomb(m_detonationTime, m_range));
+}
+
+#pragma endregion
+

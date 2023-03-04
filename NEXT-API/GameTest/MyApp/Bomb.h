@@ -19,6 +19,7 @@ public:
 	void Update(float dt);
 	virtual void Detonate() = 0;
 	virtual float GetCooldown() = 0;
+	virtual std::unique_ptr<CBomb> GetCopy() = 0;
 
 	// Inherited via CLevelObject
 	virtual bool Explode() override;
@@ -27,7 +28,7 @@ public:
 protected:
 	virtual CSimpleSprite* GetSprite() override;
 
-private:
+protected:
 	float m_detonationTime; // Detonation time in ms.
 };
 

@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------------
-// AxisBomb.h
+// Bombs.h
 //---------------------------------------------------------------------------------
-#ifndef _AXISBOMB_H
-#define _AXISBOMB_H
+#ifndef _BOMBS_H
+#define _BOMBS_H
 
 #include "..\stdafx.h"
 #include "Bomb.h"
@@ -11,6 +11,7 @@ class CAxisBomb : public CBomb {
 public:
 	CAxisBomb(float detonationTime, int range);
 	// Inherited via CBomb
+	virtual std::unique_ptr<CBomb> GetCopy() override;
 	virtual float GetCooldown() override;
 	virtual void Detonate() override;
 

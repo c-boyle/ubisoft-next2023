@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "BombDispenser.h"
 #include "GameLevel.h"
-#include "AxisBomb.h"
+#include "Bombs.h"
 #include <memory>
 
 void CBombDispenser::Dispense(float x, float y)
@@ -16,19 +16,8 @@ void CBombDispenser::Dispense(float x, float y)
 		if (cell->Blocked()) {
 			return;
 		}
-		std::unique_ptr<CBomb> bomb = nullptr;
-		switch (m_bombType) {
-		case BombType::AXIS:
-			bomb = std::make_unique<CAxisBomb>(3000.0F, 1);
-			bomb->Init(row, col);
-			break;
-		case BombType::DIRTY_BOMB:
-			break;
-		case BombType::SUPERBOMB:
-			break;
-		default:
-			break;
-		}
+		std::unique_ptr<CBomb> bomb = m_bomb->GetCopy();
+		bomb->Init(row, col);
 		m_activeBombCooldowns.push_back(bomb->GetCooldown());
 		m_activeBombs.push_back(std::move(bomb));
 	}

@@ -4,11 +4,12 @@
 #include "stdafx.h"
 #include "PlayerController.h"
 #include "../App/app.h"
+#include "Bombs.h"
 
 CPlayerController::CPlayerController()
 {
-	m_basicDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(BombType::AXIS));
-	m_specialDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(BombType::AXIS));
+	m_basicDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(1.0F, 1))));
+	m_specialDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(1.0F, 2))));
 }
 
 void CPlayerController::Render()

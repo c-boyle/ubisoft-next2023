@@ -8,7 +8,7 @@
 #include <memory>
 //------------------------------------------------------------------------
 #include "app\app.h"
-#include "MyApp/CharacterController.h"
+#include "MyApp/PlayerController.h"
 #include "MyApp/GameLevel.h"
 #include "MyApp/MyApp.h"
 //------------------------------------------------------------------------
@@ -16,7 +16,7 @@
 //------------------------------------------------------------------------
 // Eample data....
 //------------------------------------------------------------------------
-std::unique_ptr<CCharacterController> character;
+std::unique_ptr<CPlayerController> player;
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
@@ -24,7 +24,8 @@ std::unique_ptr<CCharacterController> character;
 //------------------------------------------------------------------------
 void Init()
 {
-	character = std::unique_ptr<CCharacterController>(new CCharacterController());
+	player = std::unique_ptr<CPlayerController>(new CPlayerController());
+	player->Init(numRows - 2, 1);
 	CGameLevel::GetInstance().GenerateLevel(0);
 }
 
@@ -34,7 +35,7 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	character->Update(deltaTime);
+	player->Update(deltaTime);
 }
 
 //------------------------------------------------------------------------
@@ -47,7 +48,7 @@ void Render()
 	CGameLevel::GetInstance().Render();
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
-	character->Render();
+	player->Render();
 	//------------------------------------------------------------------------
 
 	//------------------------------------------------------------------------
@@ -83,5 +84,5 @@ void Render()
 //------------------------------------------------------------------------
 void Shutdown()
 {	
-	character.reset();
+	player.reset();
 }

@@ -19,9 +19,12 @@ public:
 	void GenerateLevel(int difficultyLevel);
 	void Render();
 	bool IsBlocked(float x, float y);
+	void CellToVirtualCoords(int row, int col, float& x, float& y);
+	void VirtualCoordsToCell(float x, float y, int& row, int& column);
+	CLevelCell* GetLevelCell(int row, int column);
+	CLevelCell* VirtualCoordsToLevelCell(float x, float y);
 
 private:
-	CLevelCell* VirtualCoordsToLevelCell(float x, float y);
 	CLevelCell m_cells[numRows][numCols];
 
 };

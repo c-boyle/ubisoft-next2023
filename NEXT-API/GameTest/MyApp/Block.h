@@ -15,13 +15,12 @@ enum BlockType
 
 class CBlock : public CLevelObject {
 public:
-	CBlock(int x, int y, BlockType type);
-
 	// Inherited via ILevelObject
 	virtual bool Explode() override;
 	virtual bool BlocksCell() override;
-	virtual void OnPlayerEnter() override;
-	virtual void Render() override;
+
+protected:
+	virtual CSimpleSprite* GetSprite() override;
 
 private:
 	BlockType m_blockType;	

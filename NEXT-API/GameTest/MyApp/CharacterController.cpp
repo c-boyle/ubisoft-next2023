@@ -3,18 +3,9 @@
 //------------------------------------------------------------------------
 #include "stdafx.h"
 #include "CharacterController.h"
-#include "../App/app.h"
 #include "GameLevel.h"
 
 constexpr float speed = 1.3F;
-
-CCharacterController::CCharacterController()
-{
-	auto sp = App::CreateSprite(".\\MyData\\Player.bmp", 2, 2);
-	m_sprite = std::unique_ptr<CSimpleSprite>(sp);
-	m_sprite->SetPosition(static_cast<float>(APP_VIRTUAL_WIDTH / 2) + 0.5F, static_cast<float>(APP_VIRTUAL_HEIGHT / 2) + 0.5F);
-	m_sprite->SetScale(1.0f);
-}
 
 void CCharacterController::Update(float deltaTime)
 {
@@ -82,41 +73,13 @@ void CCharacterController::AnimateMoveY(float moveY)
 	}
 }
 
-void CCharacterController::Render()
+bool CCharacterController::Explode()
 {
-	m_sprite->Draw();
-	/*
-	float x, y;
-	m_sprite->GetPosition(x, y);
-	char textBuffer[64];
-	sprintf(textBuffer, "x: %0.4f y: %0.4f", x / cellSize, y / cellSize);
-	App::Print(x, y, textBuffer, 1.0f, 0.0f, 1.0f, GLUT_BITMAP_HELVETICA_10);
-	*/
+	return true;
 }
 
-void CCharacterController::HandleInput()
+bool CCharacterController::BlocksCell()
 {
-	Move(App::GetController().GetLeftThumbStickX(), App::GetController().GetLeftThumbStickY());
-
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false))
-	{
-		m_sprite->SetScale(m_sprite->GetScale() + 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN, false))
-	{
-		m_sprite->SetScale(m_sprite->GetScale() - 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false))
-	{
-		m_sprite->SetAngle(m_sprite->GetAngle() + 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT, false))
-	{
-		m_sprite->SetAngle(m_sprite->GetAngle() - 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
-	{
-		m_sprite->SetAnimation(-1);
-	}
+	return true;
 }
 

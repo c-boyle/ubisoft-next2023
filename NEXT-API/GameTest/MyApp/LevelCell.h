@@ -10,15 +10,14 @@
 
 constexpr int cellSize = 32;
 
-class CLevelCell : public CLevelObject {
+class CLevelCell {
 public:
 	void SetContainedObject(CLevelObject *objectToContain) { m_containedObject = std::unique_ptr<CLevelObject>(objectToContain); };
 
 	// Inherited via ILevelObject
-	virtual bool Explode() override;
-	virtual bool BlocksCell() override;
-	virtual void OnPlayerEnter() override;
-	virtual void Render() override;
+	bool Explode();
+	bool Blocked();
+	void Render();
 
 private:
 	std::unique_ptr<CLevelObject> m_containedObject = nullptr;

@@ -4,18 +4,12 @@
 #include "stdafx.h"
 #include "LevelCell.h"
 
-bool CLevelCell::BlocksCell()
+bool CLevelCell::Blocked()
 {
 	if (m_containedObject != nullptr) {
 		return m_containedObject->BlocksCell();
 	}
 	return false;
-}
-
-void CLevelCell::OnPlayerEnter() {
-	if (m_containedObject != nullptr) {
-		m_containedObject->OnPlayerEnter();
-	}
 }
 
 void CLevelCell::Render()

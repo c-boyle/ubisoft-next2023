@@ -14,6 +14,7 @@ public:
 	CBombDispenser(BombType bombType) : m_bombType(bombType) {};
 	void Dispense(float x, float y);
 	void Update(float dt);
+	void Render();
 private:
 	std::vector<std::unique_ptr<CBomb>> m_activeBombs;
 	std::vector<float> m_activeBombCooldowns;

@@ -11,6 +11,13 @@ CPlayerController::CPlayerController()
 	m_specialDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(BombType::AXIS));
 }
 
+void CPlayerController::Render()
+{
+	m_basicDispenser->Render();
+	m_specialDispenser->Render();
+	CLevelObject::Render();
+}
+
 void CPlayerController::HandleInput()
 {
 	Move(App::GetController().GetLeftThumbStickX(), App::GetController().GetLeftThumbStickY());
@@ -27,6 +34,13 @@ void CPlayerController::HandleInput()
 		m_sprite->GetPosition(x, y);
 		m_specialDispenser->Dispense(x, y);
 	}
+}
+
+void CPlayerController::Update(float deltaTime)
+{
+	CCharacterController::Update(deltaTime);
+	m_basicDispenser->Update(deltaTime);
+	m_specialDispenser->Update(deltaTime);
 }
 
 CSimpleSprite* CPlayerController::GetSprite()

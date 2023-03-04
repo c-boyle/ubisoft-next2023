@@ -9,7 +9,7 @@ constexpr float speed = 1.3F;
 
 void CCharacterController::Update(float deltaTime)
 {
-	//sprite->Update(deltaTime);
+	// sprite->Update(deltaTime);
 	HandleInput();
 }
 

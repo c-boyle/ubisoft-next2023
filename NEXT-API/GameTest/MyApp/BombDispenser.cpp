@@ -49,3 +49,9 @@ void CBombDispenser::Update(float dt)
 		m_activeBombs.erase(m_activeBombs.begin() + index);
 	}
 }
+
+void CBombDispenser::Render() {
+	for (auto& bomb : m_activeBombs) {
+		bomb->Render();
+	}
+}

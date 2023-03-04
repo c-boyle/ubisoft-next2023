@@ -62,7 +62,7 @@ void CGameLevel::CellToVirtualCoords(int row, int col, float& x, float& y)
 void CGameLevel::VirtualCoordsToCell(float x, float y, int& row, int& column)
 {
 	float cellSizeF = static_cast<float>(cellSize);
-	row = static_cast<int>((APP_VIRTUAL_HEIGHT - y) / cellSizeF) - abs(numVirtualRows - numRows);
+	row = static_cast<int>(y / cellSizeF);
 	column = static_cast<int>(x / cellSizeF);
 }
 

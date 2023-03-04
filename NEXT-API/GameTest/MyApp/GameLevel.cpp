@@ -20,21 +20,24 @@ CGameLevel& CGameLevel::GetInstance()
 	return level;
 }
 
-bool removeCharactersNextFrame = false;
-std::vector<std::weak_ptr<CCharacterController>> charactersToRemove;
+std::shared_ptr<CPlayerController> player = nullptr;
+bool generatedBefore = false;
+bool generationFrame = false;
 
 void CGameLevel::GenerateLevel(int difficultyLevel)
 {
+	generationFrame = true;
+	m_activeCharacters.clear();
 	for (int r = 0; r < numRows; r++) {
 		for (int c = 0; c < numCols; c++) {
 			// Put concrete blocks around edges
-			if (r == 0 || c == 0 || r == numRows - 1 || c == numCols - 1) {
+			if (!generatedBefore && (r == 0 || c == 0 || r == numRows - 1 || c == numCols - 1)) {
 				auto block = new CConcreteBlock();
 				block->Init(r, c);
 				m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 			}
 			// Put concrete blocks at odd rows and colums
-			else if ((r + 1) % 2 == 1 && (c + 1) % 2 == 1) {
+			else if (!generatedBefore && ((r + 1) % 2 == 1 && (c + 1) % 2 == 1)) {
 				auto block = new CConcreteBlock();
 				block->Init(r, c);
 				m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
@@ -45,10 +48,16 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}
+				else {
+					m_cells[r][c].Clear(true);
+				}
 			}
 		}
 	}
-	AddCharacter(std::make_shared<CPlayerController>(), playerSpawnRow, playerSpawnCol);
+	if (player == nullptr) {
+		player = std::make_shared<CPlayerController>();	
+	}
+	AddCharacter(player, playerSpawnRow, playerSpawnCol);
 }
 
 void CGameLevel::Render()
@@ -62,16 +71,11 @@ void CGameLevel::Render()
 
 void CGameLevel::Update(float deltaTime)
 {
-	if (removeCharactersNextFrame) {
-		for (auto& character : charactersToRemove) {
-			if (auto characterToRemove = character.lock()) {
-				m_activeCharacters.erase(characterToRemove);
-			}
-		}
-		charactersToRemove.clear();
-		removeCharactersNextFrame = false;
-	}
 	for (auto& activeCharacter : m_activeCharacters) {
+		if (generationFrame) {
+			generationFrame = false;
+			return;
+		}
 		activeCharacter->Update(deltaTime);
 	}
 }
@@ -122,12 +126,18 @@ void CGameLevel::AddCharacter(std::shared_ptr<CCharacterController> character, i
 {
 	character->Init(row, col);
 	m_cells[row][col].SetContainedCharacter(character);
-	m_activeCharacters.insert(character);
+	m_activeCharacters.emplace(character);
 }
 
 void CGameLevel::RemoveCharacter(std::shared_ptr<CCharacterController> character)
 {
-	removeCharactersNextFrame = true;
-	charactersToRemove.push_back(character);
+	std::shared_ptr<CPlayerController> player = std::dynamic_pointer_cast<CPlayerController>(character);
+	if (player == nullptr)
+	{
+		m_activeCharacters.erase(character);
+	}
+	else {
+		player->SetDead(true);
+	}
 }
 

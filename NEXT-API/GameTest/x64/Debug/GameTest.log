@@ -1,5 +1,5 @@
 ﻿  GameLevel.cpp
-C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\GameTest\MyApp\GameLevel.cpp(96,21): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\GameTest\MyApp\GameLevel.cpp(100,21): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   GameTest.vcxproj -> C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\x64\Debug\GameTest.exe
   C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\\GameTest\glut\bin\x64\freeglut.dll
   1 File(s) copied

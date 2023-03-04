@@ -13,6 +13,7 @@ public:
 	CPlayerController();
 
 	void GetPosition(float& x, float& y) { m_sprite->GetPosition(x, y); }
+	void SetDead(bool dead) { m_dead = dead; }
 
 	// Inherited via CLevelObject
 	virtual void Render() override;
@@ -26,6 +27,7 @@ protected:
 	virtual CSimpleSprite* GetSprite() override;
 	std::unique_ptr<CBombDispenser> m_basicDispenser;
 	std::unique_ptr<CBombDispenser> m_specialDispenser;
+	bool m_dead = false;
 
 };
 

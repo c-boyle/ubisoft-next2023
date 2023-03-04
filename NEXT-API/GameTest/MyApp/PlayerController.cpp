@@ -25,15 +25,23 @@ void CPlayerController::Render()
 
 void CPlayerController::HandleInput()
 {
+	if (m_dead) {
+		if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
+		{
+			CGameLevel::GetInstance().GenerateLevel(0);
+			m_dead = false;
+		}
+		return;
+	}
 	Move(App::GetController().GetLeftThumbStickX(), App::GetController().GetLeftThumbStickY());
 
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, false))
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
 	{
 		float x, y;
 		m_sprite->GetPosition(x, y);
 		m_basicDispenser->Dispense(x, y);
 	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, false))
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, true))
 	{
 		float x, y;
 		m_sprite->GetPosition(x, y);

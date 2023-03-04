@@ -17,11 +17,12 @@ enum
 	ANIM_RIGHT,
 };
 
-class CCharacterController : public CLevelObject
+class CCharacterController : public CLevelObject, public std::enable_shared_from_this<CCharacterController>
 {
 public:
 	virtual void Update(float deltaTime);
 	// Inherited via CLevelObject
+	virtual void Destroy() override;
 	virtual bool Explode() override;
 	virtual bool BlocksCell() override;
 

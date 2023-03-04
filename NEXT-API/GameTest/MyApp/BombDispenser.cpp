@@ -25,7 +25,6 @@ void CBombDispenser::Dispense(float x, float y)
 
 void CBombDispenser::Update(float dt)
 {
-	std::vector<int> elementsToRemove;
 	for (auto it = m_activeBombs.begin(); it != m_activeBombs.end(); ) {
 		if ((*it)->Update(dt)) {
 			it = m_activeBombs.erase(it);

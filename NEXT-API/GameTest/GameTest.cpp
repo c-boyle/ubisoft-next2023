@@ -16,7 +16,6 @@
 //------------------------------------------------------------------------
 // Eample data....
 //------------------------------------------------------------------------
-std::unique_ptr<CPlayerController> player;
 //------------------------------------------------------------------------
 
 constexpr int screenLeftBuffer = APP_VIRTUAL_WIDTH / 2;
@@ -27,8 +26,6 @@ constexpr int screenRightBuffer = APP_VIRTUAL_WIDTH - screenLeftBuffer;
 //------------------------------------------------------------------------
 void Init()
 {
-	player = std::unique_ptr<CPlayerController>(new CPlayerController());
-	player->Init(numRows - 2, 1);
 	CGameLevel::GetInstance().GenerateLevel(0);
 }
 
@@ -38,7 +35,7 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	player->Update(deltaTime);
+	CGameLevel::GetInstance().Update(deltaTime);
 }
 
 //------------------------------------------------------------------------
@@ -51,7 +48,6 @@ void Render()
 	CGameLevel::GetInstance().Render();
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
-	player->Render();
 	//------------------------------------------------------------------------
 
 	//------------------------------------------------------------------------
@@ -87,5 +83,5 @@ void Render()
 //------------------------------------------------------------------------
 void Shutdown()
 {	
-	player.reset();
+	
 }

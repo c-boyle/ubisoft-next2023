@@ -6,7 +6,7 @@
 
 #include "..\stdafx.h"
 #include "Bomb.h"
-#include <set>
+#include <unordered_set>
 #include <memory>
 
 class CBombDispenser {
@@ -17,7 +17,7 @@ public:
 	void Render();
 
 private:
-	std::set<std::shared_ptr<CBomb>> m_activeBombs;
+	std::unordered_set<std::shared_ptr<CBomb>> m_activeBombs;
 	std::unique_ptr<CBomb> m_bomb;
 	float m_cooldownMultiplier = 1.0F;
 	int m_maxActiveBombs = 1;

@@ -5,7 +5,10 @@
 #include "GameLevel.h"
 #include "Block.h"
 #include "Blocks.h"
+#include "PlayerController.h"
 #include <cmath>
+#include <functional>
+#include <vector>
 
 
 //-----------------------------------------------------------------------------
@@ -16,6 +19,9 @@ CGameLevel& CGameLevel::GetInstance()
 	static CGameLevel level;
 	return level;
 }
+
+bool removeCharactersNextFrame = false;
+std::vector<std::weak_ptr<CCharacterController>> charactersToRemove;
 
 void CGameLevel::GenerateLevel(int difficultyLevel)
 {
@@ -42,6 +48,7 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 			}
 		}
 	}
+	AddCharacter(std::make_shared<CPlayerController>(), playerSpawnRow, playerSpawnCol);
 }
 
 void CGameLevel::Render()
@@ -50,6 +57,22 @@ void CGameLevel::Render()
 		for (int c = 0; c < numCols; c++) {
 			m_cells[r][c].Render();
 		}
+	}
+}
+
+void CGameLevel::Update(float deltaTime)
+{
+	if (removeCharactersNextFrame) {
+		for (auto& character : charactersToRemove) {
+			if (auto characterToRemove = character.lock()) {
+				m_activeCharacters.erase(characterToRemove);
+			}
+		}
+		charactersToRemove.clear();
+		removeCharactersNextFrame = false;
+	}
+	for (auto& activeCharacter : m_activeCharacters) {
+		activeCharacter->Update(deltaTime);
 	}
 }
 
@@ -93,5 +116,18 @@ CLevelCell* CGameLevel::VirtualCoordsToLevelCell(float x, float y)
 	int row, column;
 	VirtualCoordsToCell(x, y, row, column);
 	return GetLevelCell(row, column);
+}
+
+void CGameLevel::AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col)
+{
+	character->Init(row, col);
+	m_cells[row][col].SetContainedCharacter(character);
+	m_activeCharacters.insert(character);
+}
+
+void CGameLevel::RemoveCharacter(std::shared_ptr<CCharacterController> character)
+{
+	removeCharactersNextFrame = true;
+	charactersToRemove.push_back(character);
 }
 

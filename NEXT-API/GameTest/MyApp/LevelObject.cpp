@@ -38,5 +38,5 @@ void CLevelObject::Destroy()
 	float x, y;
 	m_sprite->GetPosition(x, y);
 	auto cell = CGameLevel::GetInstance().VirtualCoordsToLevelCell(x, y);
-	cell->Clear();
+	cell->Clear(true, true);
 }

@@ -12,16 +12,17 @@ constexpr int cellSize = 32;
 
 class CLevelCell {
 public:
-	void SetContainedObject(CLevelObject *objectToContain) { m_containedObject = std::unique_ptr<CLevelObject>(objectToContain); };
+	void SetContainedObject(std::shared_ptr<CLevelObject> objectToContain) { m_containedObject = objectToContain; };
 
 	// Inherited via ILevelObject
 	bool Explode();
 	bool Blocked();
 	void Render();
+	void ShiftHorizontally(float xChange);
 	void Clear();
 
 private:
-	std::unique_ptr<CLevelObject> m_containedObject = nullptr;
+	std::shared_ptr<CLevelObject> m_containedObject = nullptr;
 };
 
 #endif

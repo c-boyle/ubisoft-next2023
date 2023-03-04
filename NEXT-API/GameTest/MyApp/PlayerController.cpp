@@ -5,11 +5,15 @@
 #include "PlayerController.h"
 #include "../App/app.h"
 #include "Bombs.h"
+#include "GameLevel.h"
+
+constexpr int levelLeftBuffer = APP_VIRTUAL_WIDTH / 2;
+constexpr int levelRightBuffer = levelWidth - levelLeftBuffer;
 
 CPlayerController::CPlayerController()
 {
-	m_basicDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(10000.0F, 1)), 2));
-	m_specialDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(10000.0F, 2)), 1));
+	m_basicDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(1000.0F, 1)), 2));
+	m_specialDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(std::unique_ptr<CBomb>(new CAxisBomb(1000.0F, 2)), 1));
 }
 
 void CPlayerController::Render()
@@ -42,6 +46,22 @@ void CPlayerController::Update(float deltaTime)
 	CCharacterController::Update(deltaTime);
 	m_basicDispenser->Update(deltaTime);
 	m_specialDispenser->Update(deltaTime);
+}
+
+void CPlayerController::Move(float moveX, float moveY)
+{
+	float oldX, oldY;
+	m_sprite->GetPosition(oldX, oldY);
+	CCharacterController::Move(moveX, moveY);
+	float newX, newY;
+	m_sprite->GetPosition(newX, newY);
+	if (newX + CGameLevel::GetInstance().GetTotalShift() >= levelLeftBuffer && newX + CGameLevel::GetInstance().GetTotalShift() <= levelRightBuffer) {
+		float xChange = newX - oldX;
+		newX = levelLeftBuffer;
+		m_sprite->SetPosition(newX, newY);
+		CGameLevel::GetInstance().ShiftLevelHorizontally(xChange);
+	}
+
 }
 
 CSimpleSprite* CPlayerController::GetSprite()

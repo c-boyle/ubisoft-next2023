@@ -26,6 +26,13 @@ void CLevelObject::Render()
 	m_sprite->Draw();
 }
 
+void CLevelObject::ShiftHorizontally(float xChange)
+{
+	float x, y;
+	m_sprite->GetPosition(x, y);
+	m_sprite->SetPosition(x - xChange, y);
+}
+
 void CLevelObject::Destroy()
 {
 	float x, y;

@@ -7,12 +7,15 @@
 
 CBomb::CBomb(float detonationTime) : m_detonationTime(detonationTime) { }
 
-void CBomb::Update(float dt)
+bool CBomb::Update(float dt)
 {
     m_detonationTime -= dt;
     if (m_detonationTime <= 0.0F) {
         Detonate();
+        Destroy();
+        return true;
     }
+    return false;
 }
 
 bool CBomb::Explode()

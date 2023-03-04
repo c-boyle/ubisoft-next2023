@@ -19,6 +19,9 @@
 std::unique_ptr<CPlayerController> player;
 //------------------------------------------------------------------------
 
+constexpr int screenLeftBuffer = APP_VIRTUAL_WIDTH / 2;
+constexpr int screenRightBuffer = APP_VIRTUAL_WIDTH - screenLeftBuffer;
+
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
 //------------------------------------------------------------------------

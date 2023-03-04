@@ -16,25 +16,23 @@ void CBombDispenser::Dispense(float x, float y)
 		if (cell->Blocked()) {
 			return;
 		}
-		std::unique_ptr<CBomb> bomb = m_bomb->GetCopy();
+		std::shared_ptr<CBomb> bomb = std::move(m_bomb->GetCopy());
 		bomb->Init(row, col);
-		m_activeBombTimers.push_back(bomb->GetDetonationTime());
-		m_activeBombs.push_back(std::move(bomb));
+		m_activeBombs.push_back(bomb);
+		cell->SetContainedObject(bomb);
 	}
 }
 
 void CBombDispenser::Update(float dt)
 {
 	std::vector<int> elementsToRemove;
-	for (int i = 0; i < m_activeBombTimers.size(); i++) {
-		m_activeBombTimers[i] -= dt;
-		if (m_activeBombTimers[i] <= 0.0F) {
-			m_activeBombs[i]->Detonate();
+	for (int i = 0; i < m_activeBombs.size(); i++) {
+		if (m_activeBombs[i]->Update(dt)) {
+			m_activeBombs[i].reset();
 			elementsToRemove.push_back(i);
 		}
 	}
 	for (auto index : elementsToRemove) {
-		m_activeBombTimers.erase(m_activeBombTimers.begin() + index);
 		m_activeBombs.erase(m_activeBombs.begin() + index);
 	}
 }

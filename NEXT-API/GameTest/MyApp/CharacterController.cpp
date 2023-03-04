@@ -23,7 +23,7 @@ void CCharacterController::Move(float moveX, float moveY)
 		m_sprite->GetPosition(x, y);
 		float targetX = x + moveX;
 		float targetY = y + moveY;
-		int decimalX = abs(static_cast<int>((targetX / cellSize) * 10)) % 10;
+		int decimalX = abs(static_cast<int>(((targetX + CGameLevel::GetInstance().GetTotalShift()) / cellSize) * 10)) % 10;
 		int decimalY = abs(static_cast<int>((targetY / cellSize) * 10)) % 10;
 		bool atCenterOfCellX = decimalX >= 4 && decimalX <= 6;
 		bool atCenterOfCellY = decimalY >= 4 && decimalY <= 6;

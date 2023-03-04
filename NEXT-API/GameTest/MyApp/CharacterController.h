@@ -26,7 +26,7 @@ public:
 	virtual bool BlocksCell() override;
 
 protected:
-	void Move(float moveX, float moveY);
+	virtual void Move(float moveX, float moveY);
 	virtual void HandleInput() = 0;
 
 private:

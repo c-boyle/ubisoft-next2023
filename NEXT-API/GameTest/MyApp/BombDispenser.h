@@ -17,8 +17,7 @@ public:
 	void Render();
 
 private:
-	std::vector<std::unique_ptr<CBomb>> m_activeBombs;
-	std::vector<float> m_activeBombTimers;
+	std::vector<std::shared_ptr<CBomb>> m_activeBombs;
 	std::unique_ptr<CBomb> m_bomb;
 	float m_cooldownMultiplier = 1.0F;
 	int m_maxActiveBombs = 1;

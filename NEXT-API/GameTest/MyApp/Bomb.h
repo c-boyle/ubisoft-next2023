@@ -16,7 +16,8 @@ enum BombType {
 class CBomb : public CLevelObject {
 public:
 	CBomb(float detonationTime);
-	void Update(float dt);
+	/// <returns>True iff bomb was detonated</returns>
+	bool Update(float dt);
 	virtual void Detonate() = 0;
 	virtual float GetDetonationTime() { return m_detonationTime; };
 	virtual std::unique_ptr<CBomb> GetCopy() = 0;

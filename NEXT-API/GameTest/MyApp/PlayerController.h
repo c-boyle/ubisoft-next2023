@@ -12,6 +12,8 @@ class CPlayerController : public CCharacterController {
 public:
 	CPlayerController();
 
+	void GetPosition(float& x, float& y) { m_sprite->GetPosition(x, y); }
+
 	// Inherited via CLevelObject
 	virtual void Render() override;
 
@@ -20,6 +22,7 @@ public:
 	virtual void Update(float deltaTime) override;
 
 protected:
+	virtual void Move(float moveX, float moveY) override;
 	virtual CSimpleSprite* GetSprite() override;
 	std::unique_ptr<CBombDispenser> m_basicDispenser;
 	std::unique_ptr<CBombDispenser> m_specialDispenser;

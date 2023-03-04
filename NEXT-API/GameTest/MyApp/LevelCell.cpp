@@ -19,6 +19,13 @@ void CLevelCell::Render()
 	}
 }
 
+void CLevelCell::ShiftHorizontally(float xChange)
+{
+	if (m_containedObject != nullptr) {
+		m_containedObject->ShiftHorizontally(xChange);
+	}
+}
+
 void CLevelCell::Clear()
 {
 	m_containedObject.reset();

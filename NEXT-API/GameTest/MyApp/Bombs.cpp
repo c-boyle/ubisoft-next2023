@@ -11,6 +11,7 @@ CAxisBomb::CAxisBomb(float detonationTime, int range) : CBomb(detonationTime), m
 
 void CAxisBomb::Detonate()
 {
+	m_detonated = true;
 	bool leftBlocked = false;
 	bool rightBlocked = false;
 	bool upBlocked = false;
@@ -25,8 +26,8 @@ void CAxisBomb::Detonate()
 		if (!leftBlocked) {
 			leftBlocked = !CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol - i)->Explode();
 		}
-		if (!leftBlocked) {
-			leftBlocked = !CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol + i)->Explode();
+		if (!rightBlocked) {
+			rightBlocked = !CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol + i)->Explode();
 		}
 	}
 }

@@ -9,18 +9,22 @@ CBomb::CBomb(float detonationTime) : m_detonationTime(detonationTime) { }
 
 bool CBomb::Update(float dt)
 {
+    if (m_detonated) {
+        return true;
+    }
     m_detonationTime -= dt;
     if (m_detonationTime <= 0.0F) {
-        Detonate();
-        Destroy();
-        return true;
+        return Explode();
     }
     return false;
 }
 
 bool CBomb::Explode()
 {
-    Detonate();
+    if (!m_detonated) {
+        Detonate();
+        Destroy();
+    }
     return true;
 }
 

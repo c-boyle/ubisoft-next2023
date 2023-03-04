@@ -39,7 +39,16 @@ void CCharacterController::Move(float moveX, float moveY)
 		}
 		float newX = CGameLevel::GetInstance().IsBlocked(targetX + widthBuffer, y) || !atCenterOfCellY ? x : targetX;
 		float newY = CGameLevel::GetInstance().IsBlocked(x, targetY + heightBuffer) || !atCenterOfCellX ? y : targetY;
-		m_sprite->SetPosition(newX, newY);
+		bool positionChanged = newX != x || newY != y;
+		if (positionChanged) {
+			m_sprite->SetPosition(newX, newY);
+			auto oldCell = CGameLevel::GetInstance().VirtualCoordsToLevelCell(x, y);
+			auto newCell = CGameLevel::GetInstance().VirtualCoordsToLevelCell(newX, newY);
+			if (oldCell != newCell) {
+				//oldCell->Clear();
+				//newCell->SetContainedObject(std::shared_ptr<CLevelObject>(this));
+			}
+		}
 	}
 }
 
@@ -80,6 +89,6 @@ bool CCharacterController::Explode()
 
 bool CCharacterController::BlocksCell()
 {
-	return true;
+	return false;
 }
 

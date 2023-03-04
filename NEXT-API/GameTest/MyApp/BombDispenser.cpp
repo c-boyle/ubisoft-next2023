@@ -18,7 +18,7 @@ void CBombDispenser::Dispense(float x, float y)
 		}
 		std::shared_ptr<CBomb> bomb = std::move(m_bomb->GetCopy());
 		bomb->Init(row, col);
-		m_activeBombs.push_back(bomb);
+		m_activeBombs.insert(bomb);
 		cell->SetContainedObject(bomb);
 	}
 }
@@ -26,14 +26,13 @@ void CBombDispenser::Dispense(float x, float y)
 void CBombDispenser::Update(float dt)
 {
 	std::vector<int> elementsToRemove;
-	for (int i = 0; i < m_activeBombs.size(); i++) {
-		if (m_activeBombs[i]->Update(dt)) {
-			m_activeBombs[i].reset();
-			elementsToRemove.push_back(i);
+	for (auto it = m_activeBombs.begin(); it != m_activeBombs.end(); ) {
+		if ((*it)->Update(dt)) {
+			it = m_activeBombs.erase(it);
 		}
-	}
-	for (auto index : elementsToRemove) {
-		m_activeBombs.erase(m_activeBombs.begin() + index);
+		else {
+			++it;
+		}
 	}
 }
 

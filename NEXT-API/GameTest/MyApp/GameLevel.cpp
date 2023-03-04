@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GameLevel.h"
 #include "Block.h"
+#include "Blocks.h"
 #include <cmath>
 
 
@@ -22,18 +23,22 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 		for (int c = 0; c < numCols; c++) {
 			// Put concrete blocks around edges
 			if (r == 0 || c == 0 || r == numRows - 1 || c == numCols - 1) {
-				auto block = new CBlock();
+				auto block = new CConcreteBlock();
 				block->Init(r, c);
 				m_cells[r][c].SetContainedObject(block);
 			}
 			// Put concrete blocks at odd rows and colums
 			else if ((r + 1) % 2 == 1 && (c + 1) % 2 == 1) {
-				auto block = new CBlock();
+				auto block = new CConcreteBlock();
 				block->Init(r, c);
 				m_cells[r][c].SetContainedObject(block);
 			}
 			else {
-				//m_cells[r][c].SetContainedObject(new CBlock(c * cellSize + (cellSize / 2), r * cellSize, BlockType::BRICK_BLOCK));
+				if (c > 4) {
+					auto block = new CBrickBlock(1);
+					block->Init(r, c);
+					m_cells[r][c].SetContainedObject(block);
+				}
 			}
 		}
 	}

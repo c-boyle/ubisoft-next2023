@@ -19,6 +19,11 @@ void CLevelCell::Render()
 	}
 }
 
+void CLevelCell::Clear()
+{
+	m_containedObject.reset();
+}
+
 bool CLevelCell::Explode()
 {
 	if (m_containedObject != nullptr) {

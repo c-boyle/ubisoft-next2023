@@ -27,10 +27,6 @@ public:
 protected:
 	virtual CSimpleSprite* GetSprite() override;
 
-protected:
-	int m_cellRow;
-	int m_cellCol;
-
 private:
 	float m_detonationTime; // Detonation time in ms.
 };

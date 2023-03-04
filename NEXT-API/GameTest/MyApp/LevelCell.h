@@ -18,6 +18,7 @@ public:
 	bool Explode();
 	bool Blocked();
 	void Render();
+	void Clear();
 
 private:
 	std::unique_ptr<CLevelObject> m_containedObject = nullptr;

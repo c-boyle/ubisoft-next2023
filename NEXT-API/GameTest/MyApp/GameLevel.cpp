@@ -52,7 +52,7 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 			}
 			else {
 				if (c > 4 && (rand() % 100) < 30) {
-					auto block = new CBrickBlock(1);
+					auto block = new CItemBlock(1, new CDoorItem());
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}

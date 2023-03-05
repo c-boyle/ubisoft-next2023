@@ -42,8 +42,9 @@ void CCharacterController::Move(float moveX, float moveY)
 		bool positionChanged = newX != x || newY != y;
 		if (positionChanged) {
 			m_sprite->SetPosition(newX, newY);
-			auto oldCell = CGameLevel::GetInstance().VirtualCoordsToLevelCell(x, y);
-			auto newCell = CGameLevel::GetInstance().VirtualCoordsToLevelCell(newX, newY);
+			auto oldCell = CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol);
+			CGameLevel::GetInstance().VirtualCoordsToCell(x, y, m_cellRow, m_cellCol);
+			auto newCell = CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol);
 			if (oldCell != newCell) {
 				newCell->SetContainedCharacter(shared_from_this());
 				oldCell->Clear(false);

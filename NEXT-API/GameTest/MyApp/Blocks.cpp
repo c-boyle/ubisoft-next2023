@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "../App/app.h"
 #include "Blocks.h"
+#include "GameLevel.h"
 
 #pragma region ConcreteBlock
 
@@ -37,3 +38,16 @@ CSimpleSprite* CBrickBlock::GetSprite()
 
 #pragma endregion
 
+bool CItemBlock::Explode()
+{
+	int row = m_cellRow;
+	int col = m_cellCol;
+	m_item->Init(m_cellRow, m_cellCol);
+	std::unique_ptr<CItem> item = std::move(m_item);
+
+	bool exploded = CBrickBlock::Explode();
+
+	CGameLevel::GetInstance().GetLevelCell(row, col)->SetContainedObject(std::move(item));
+	
+	return exploded;
+}

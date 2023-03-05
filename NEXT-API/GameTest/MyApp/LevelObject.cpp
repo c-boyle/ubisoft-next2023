@@ -35,8 +35,6 @@ void CLevelObject::ShiftHorizontally(float xChange)
 
 void CLevelObject::Destroy()
 {
-	float x, y;
-	m_sprite->GetPosition(x, y);
-	auto cell = CGameLevel::GetInstance().VirtualCoordsToLevelCell(x, y);
+	auto cell = CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol);
 	cell->Clear(true, true);
 }

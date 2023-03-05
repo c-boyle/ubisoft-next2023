@@ -10,7 +10,7 @@
 #include <unordered_set>
 
 constexpr int numRows = 13;
-constexpr int numCols = 41;
+constexpr int numCols = 35;
 constexpr int numVirtualRows = APP_VIRTUAL_HEIGHT / cellSize;
 constexpr int numVirtualCols = APP_VIRTUAL_WIDTH / cellSize;
 constexpr int levelWidth = numCols * cellSize;

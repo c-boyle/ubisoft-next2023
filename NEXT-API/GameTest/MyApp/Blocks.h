@@ -6,6 +6,7 @@
 
 #include "..\stdafx.h"
 #include "Block.h"
+#include "Items.h"
 
 class CConcreteBlock : public CBlock {
 public:
@@ -29,6 +30,16 @@ protected:
 private:
 	int m_durability;
 
+};
+
+class CItemBlock : public CBrickBlock {
+public:
+	CItemBlock(int durability, CItem* item) : CBrickBlock(durability), m_item(std::unique_ptr<CItem>(item)) {};
+	// Inherited via CBlock
+	virtual bool Explode() override;
+
+private:
+	std::unique_ptr<CItem> m_item;
 };
 
 #endif

@@ -12,20 +12,21 @@
 class CLevelObject {
 public:
 	CLevelObject() = default;
-	CLevelObject(bool isBlocker, std::unique_ptr<CSimpleSprite> sprite, CExplodeLogic *explodeLogic);
+	CLevelObject(bool isBlocker, std::unique_ptr<CSimpleSprite> sprite, std::unique_ptr<CExplodeLogic> explodeLogic, std::unique_ptr<COnPlayerPickupLogic> onPlayerPickupLogic = nullptr);
 	void Init(int row, int col);
 	void Init(float x, float y);
 	void GetPosition(int& row, int& col) { row = m_cellRow; col = m_cellCol; };
 	bool BlocksCell() { return m_isBlocker; }
 	bool Explode();
-	/// <returns>True iff this object was exploded</returns>
-	virtual void OnPlayerPickup() {};
+	void OnPlayerPickup();
+	void SetExplodeLogic(std::unique_ptr<CExplodeLogic> explodeLogic) { m_explodeLogic = std::move(explodeLogic); }
 	virtual void ShiftHorizontally(float xChange);
 	virtual void Destroy();
 	virtual void Render();
 
 protected:
 	std::unique_ptr<CExplodeLogic> m_explodeLogic;
+	std::unique_ptr<COnPlayerPickupLogic> m_onPlayerPickupLogic;
 	bool m_isBlocker;
 	int m_cellRow;
 	int m_cellCol;

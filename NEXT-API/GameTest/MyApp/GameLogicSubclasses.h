@@ -7,7 +7,18 @@
 #include "..\stdafx.h"
 #include "GameLogic.h"
 
-#pragma region ExplodeLogics
+#pragma region OnPlayerPickupLogics
+
+class CIncreaseLevelOnPlayerPickupLogic : public COnPlayerPickupLogic {
+public:
+	CIncreaseLevelOnPlayerPickupLogic(int levelIncrease = 1) : m_levelIncrease(levelIncrease) {};
+	// Inherited via COnPlayerPickupLogic
+	virtual void OnPlayerPickup() override;
+
+private:
+	int m_levelIncrease;
+
+};
 
 #pragma endregion
 

@@ -5,6 +5,17 @@
 #include "GameLogicSubclasses.h"
 #include "GameLevel.h"
 
+#pragma region OnPlayerPickupLogics
+
+void CIncreaseLevelOnPlayerPickupLogic::OnPlayerPickup()
+{
+	CGameLevel::GetInstance().GenerateLevel(CGameLevel::GetInstance().GetDifficulty() + m_levelIncrease);
+}
+
+#pragma endregion
+
+#pragma region DetonateLogics
+
 void CAxisDetonateLogic::Detonate(CLevelObject& object)
 {
 	bool leftBlocked = false;
@@ -31,3 +42,6 @@ void CAxisDetonateLogic::Detonate(CLevelObject& object)
 		}
 	}
 }
+#pragma endregion
+
+

@@ -5,8 +5,9 @@
 #include "LevelObject.h"
 #include "GameLevel.h"
 
-CLevelObject::CLevelObject(bool isBlocker, std::unique_ptr<CSimpleSprite> sprite, CExplodeLogic *explodeLogic)
-	: m_isBlocker(isBlocker), m_explodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic)), m_sprite(std::move(sprite)) {}
+CLevelObject::CLevelObject(bool isBlocker, std::unique_ptr<CSimpleSprite> sprite, std::unique_ptr<CExplodeLogic> explodeLogic, std::unique_ptr<COnPlayerPickupLogic> onPlayerPickupLogic)
+	:   m_isBlocker(isBlocker), m_explodeLogic(std::move(explodeLogic)),
+		m_sprite(std::move(sprite)), m_onPlayerPickupLogic(std::move(onPlayerPickupLogic)) {}
 
 void CLevelObject::Init(int row, int col)
 {
@@ -16,6 +17,7 @@ void CLevelObject::Init(int row, int col)
 	m_cellCol = col;
 	Init(x, y);
 }
+
 
 void CLevelObject::Init(float x, float y)
 {
@@ -31,6 +33,13 @@ void CLevelObject::Render()
 bool CLevelObject::Explode()
 {
 	return m_explodeLogic != nullptr && m_explodeLogic->Explode(*this);
+}
+
+void CLevelObject::OnPlayerPickup()
+{
+	if (m_onPlayerPickupLogic != nullptr) {
+		m_onPlayerPickupLogic->OnPlayerPickup();
+	}
 }
 
 void CLevelObject::ShiftHorizontally(float xChange)

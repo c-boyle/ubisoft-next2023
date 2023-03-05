@@ -21,7 +21,7 @@ CLevelObject* GetConcreteBlock() {
 CLevelObject* GetBrickBlock() {
 	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
 	auto explodeLogic = new CExplodeLogic(nullptr, nullptr, 1);
-	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), explodeLogic);
+	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
 
 //-----------------------------------------------------------------------------
@@ -75,21 +75,22 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 		}
 	}
 
-	
 	if (player == nullptr) {
 		auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
 		sp->SetColor(0.0F, 1.0F, 0.0F);
-		auto explodeLogic = new CExplodeLogic();
-		player = std::shared_ptr<CPlayerController>(new CPlayerController(false, std::unique_ptr<CSimpleSprite>(sp), explodeLogic));
+		
+		player = std::shared_ptr<CPlayerController>(new CPlayerController(false, std::unique_ptr<CSimpleSprite>(sp), nullptr));
 		player->SetBasicDispenser(BombType::BASIC_BOMB);
 		player->SetSpecialDispenser(BombType::SUPERBOMB);
 	}
+	auto explodeLogic = new CExplodeLogic();
+	player->SetExplodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic));
 	AddCharacter(player, playerSpawnRow, playerSpawnCol);
 	
 	auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
 	sp->SetColor(1.0F, 0.0F, 0.0F);
-	auto explodeLogic = new CExplodeLogic();
-	auto enemy = new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), nullptr);
+	explodeLogic = new CExplodeLogic();
+	auto enemy = new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 	AddCharacter(std::shared_ptr<CEnemyController>(enemy), playerSpawnRow - 1, playerSpawnCol);
 
 	generatedBefore = true;

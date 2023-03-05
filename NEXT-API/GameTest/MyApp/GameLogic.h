@@ -14,6 +14,11 @@ public:
 	virtual void Detonate(CLevelObject& object) = 0;
 };
 
+class COnPlayerPickupLogic {
+public:
+	virtual void OnPlayerPickup() = 0;
+};
+
 class CExplodeLogic {
 public:
 	CExplodeLogic(std::unique_ptr<CDetonateLogic> detonateLogic = nullptr, std::shared_ptr<CLevelObject> dropOnDestruction = nullptr, int durability = 1);

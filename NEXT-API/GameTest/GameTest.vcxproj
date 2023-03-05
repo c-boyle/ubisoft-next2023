@@ -194,6 +194,7 @@
     <ClInclude Include="MyApp\LevelCell.h" />
     <ClInclude Include="MyApp\MyApp.h" />
     <ClInclude Include="MyApp\PlayerController.h" />
+    <ClInclude Include="MyApp\Scoreboard.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -216,6 +217,7 @@
     <ClCompile Include="MyApp\LevelObject.cpp" />
     <ClCompile Include="MyApp\MyApp.cpp" />
     <ClCompile Include="MyApp\PlayerController.cpp" />
+    <ClCompile Include="MyApp\Scoreboard.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

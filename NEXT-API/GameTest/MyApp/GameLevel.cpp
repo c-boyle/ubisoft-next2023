@@ -116,6 +116,7 @@ bool CGameLevel::IsCenterOfCell(float x, float y)
 
 void CGameLevel::Render()
 {
+	m_scoreboard.Render(m_timeLeft, m_score, m_livesLeft, m_currentDifficulty + 1);
 	for (int r = 0; r < numRows; r++) {
 		for (int c = 0; c < numCols; c++) {
 			m_cells[r][c].Render();

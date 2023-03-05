@@ -9,6 +9,7 @@
 #include "../App/AppSettings.h"
 #include <unordered_set>
 #include "PlayerController.h"
+#include "Scoreboard.h"
 
 constexpr int numRows = 13;
 constexpr int numCols = 35;
@@ -46,6 +47,11 @@ private:
 	float m_totalShift;
 	int m_currentDifficulty;
 	std::shared_ptr<CPlayerController> m_player;
+	CScoreboard m_scoreboard = CScoreboard(cellSize, APP_VIRTUAL_HEIGHT - cellSize);
+	int m_livesLeft = 1;
+	float m_timeLeft = 200.0F * 1000.0F;
+	int m_score = 0;
+
 
 };
 

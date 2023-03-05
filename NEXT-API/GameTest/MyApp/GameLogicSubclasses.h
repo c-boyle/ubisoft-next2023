@@ -17,7 +17,6 @@ public:
 
 private:
 	int m_levelIncrease;
-
 };
 
 #pragma endregion

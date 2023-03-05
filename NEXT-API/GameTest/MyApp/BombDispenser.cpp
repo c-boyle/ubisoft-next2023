@@ -15,7 +15,7 @@ void CBombDispenser::Dispense(int row, int col)
 		}
 		std::shared_ptr<CBomb> bomb = std::shared_ptr<CBomb>(new CBomb(m_bombType));
 		bomb->Init(row, col);
-		m_activeBombs.insert(bomb);
+		m_activeBombs.emplace(bomb);
 		cell->SetContainedObject(bomb);
 	}
 }

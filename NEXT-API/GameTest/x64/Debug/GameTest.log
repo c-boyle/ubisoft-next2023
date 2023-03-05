@@ -1,15 +1,5 @@
-﻿  GameTest.cpp
-  Bomb.cpp
-  BombDispenser.cpp
-  CharacterController.cpp
-  EnemyController.cpp
-  GameLevel.cpp
-C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\GameTest\MyApp\GameLevel.cpp(14,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+﻿  Bomb.cpp
   GameLogic.cpp
-  GameLogicSubclasses.cpp
-  LevelCell.cpp
-  LevelObject.cpp
-  PlayerController.cpp
   Generating Code...
   GameTest.vcxproj -> C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\x64\Debug\GameTest.exe
   C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\\GameTest\glut\bin\x64\freeglut.dll

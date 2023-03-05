@@ -27,7 +27,7 @@ CBomb::CBomb(BombType type)
 
 bool CBomb::Update(float dt)
 {
-	if (m_detonated) {
+	if (m_explodeLogic->GetDetonated()) {
 		return true;
 	}
 	m_detonationTime -= dt;

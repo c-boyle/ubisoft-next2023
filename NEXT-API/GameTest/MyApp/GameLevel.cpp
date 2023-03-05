@@ -24,6 +24,12 @@ CLevelObject* GetBrickBlock() {
 	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
 
+CLevelObject* GetDoorBlock() {
+	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
+	auto explodeLogic = new CExplodeLogic(nullptr, nullptr, 1);
+	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
+}
+
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
@@ -82,6 +88,7 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 		player = std::shared_ptr<CPlayerController>(new CPlayerController(false, std::unique_ptr<CSimpleSprite>(sp), nullptr));
 		player->SetBasicDispenser(BombType::BASIC_BOMB);
 		player->SetSpecialDispenser(BombType::SUPERBOMB);
+		player->SetBasicDispenserMaxBombs(3);
 	}
 	auto explodeLogic = new CExplodeLogic();
 	player->SetExplodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic));

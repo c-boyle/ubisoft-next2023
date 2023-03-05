@@ -13,6 +13,7 @@ class CBombDispenser {
 public:
 	CBombDispenser(BombType bombType) : m_bombType(bombType), m_maxActiveBombs(1) {}
 	void SetBomb(BombType bombType) { m_bombType = bombType; }
+	void SetMaxActiveBombs(int maxActiveBombs) { m_maxActiveBombs = maxActiveBombs; }
 	void Dispense(int row, int col);
 	void Update(float dt);
 	void Render();

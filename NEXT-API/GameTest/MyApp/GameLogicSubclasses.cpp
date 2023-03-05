@@ -18,6 +18,7 @@ void CIncreaseLevelOnPlayerPickupLogic::OnPlayerPickup()
 
 void CAxisDetonateLogic::Detonate(CLevelObject& object)
 {
+	m_detonated = true;
 	bool leftBlocked = false;
 	bool rightBlocked = false;
 	bool upBlocked = false;

@@ -23,7 +23,6 @@ public:
 
 protected:
 	float m_detonationTime; // Detonation time in ms.
-	bool m_detonated = false;
 };
 
 #endif

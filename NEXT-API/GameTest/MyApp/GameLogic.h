@@ -12,6 +12,10 @@ class CLevelObject;
 class CDetonateLogic {
 public:
 	virtual void Detonate(CLevelObject& object) = 0;
+	bool GetDetonated() { return m_detonated; }
+
+protected:
+	bool m_detonated = false;
 };
 
 class COnPlayerPickupLogic {
@@ -24,6 +28,7 @@ public:
 	CExplodeLogic(std::unique_ptr<CDetonateLogic> detonateLogic = nullptr, std::shared_ptr<CLevelObject> dropOnDestruction = nullptr, int durability = 1);
 	virtual ~CExplodeLogic();
 	bool Explode(CLevelObject& detonatingObject);
+	bool GetDetonated();
 
 private:
 	std::unique_ptr<CDetonateLogic> m_detonateLogic;

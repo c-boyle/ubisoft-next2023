@@ -183,6 +183,7 @@
     <ClInclude Include="App\SimpleSound.h" />
     <ClInclude Include="App\SimpleSprite.h" />
     <ClInclude Include="App\TextureLoader.h" />
+    <ClInclude Include="MyApp\AStar.h" />
     <ClInclude Include="MyApp\Bomb.h" />
     <ClInclude Include="MyApp\BombDispenser.h" />
     <ClInclude Include="MyApp\CharacterController.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="App\SimpleSprite.cpp" />
     <ClCompile Include="App\TextureLoader.cpp" />
     <ClCompile Include="GameTest.cpp" />
+    <ClCompile Include="MyApp\AStar.cpp" />
     <ClCompile Include="MyApp\Bomb.cpp" />
     <ClCompile Include="MyApp\BombDispenser.cpp" />
     <ClCompile Include="MyApp\CharacterController.cpp" />

@@ -82,6 +82,17 @@ protected:
 	void PrefferedNewDir(int& x, int& y);
 };
 
+class CAStarAIInput : public CAIInputLogic {
+public:
+	CAStarAIInput(std::shared_ptr<CCharacterController> target, bool preferClose = true) : m_target(target), m_preferClose(preferClose) {};
+	// Inherited via CAIInputLogic
+	virtual void DecideInput(CCharacterController& character) override;
+
+protected:
+	bool m_preferClose;
+	std::shared_ptr<CCharacterController> m_target;
+};
+
 #pragma endregion
 
 #endif

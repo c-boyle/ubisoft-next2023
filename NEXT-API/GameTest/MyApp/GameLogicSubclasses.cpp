@@ -136,4 +136,9 @@ void CHugWallAIInput::PrefferedNewDir(int& x, int& y)
 	}
 }
 
+void CAStarAIInput::DecideInput(CCharacterController& character)
+{
+
+}
+
 #pragma endregion

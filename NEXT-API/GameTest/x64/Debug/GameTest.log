@@ -1,4 +1,6 @@
-﻿  Bomb.cpp
+﻿  AStar.cpp
+C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\GameTest\MyApp\AStar.h(11,62): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\GameTest\MyApp\AStar.h(11,76): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   GameTest.vcxproj -> C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\x64\Debug\GameTest.exe
   C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\\GameTest\glut\bin\x64\freeglut.dll
   1 File(s) copied

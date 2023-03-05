@@ -17,6 +17,7 @@ public:
 
 	// Inherited via CLevelObject
 	virtual void Render() override;
+	virtual void ShiftHorizontally(float xChange) override {};
 
 	// Inherited via CCharacterController
 	virtual void HandleInput() override;

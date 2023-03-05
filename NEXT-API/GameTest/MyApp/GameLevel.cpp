@@ -9,6 +9,7 @@
 #include <cmath>
 #include <functional>
 #include <vector>
+#include <ctime>
 
 
 //-----------------------------------------------------------------------------
@@ -26,6 +27,8 @@ bool generationFrame = false;
 
 void CGameLevel::GenerateLevel(int difficultyLevel)
 {
+	srand((unsigned int)time(NULL));
+	m_totalShift = 0.0F;
 	generationFrame = true;
 	m_activeCharacters.clear();
 	for (int r = 0; r < numRows; r++) {
@@ -43,7 +46,7 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 				m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 			}
 			else {
-				if (c > 4) {
+				if (c > 4 && (rand() % 100) < 30) {
 					auto block = new CBrickBlock(1);
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
@@ -112,8 +115,6 @@ CLevelCell* CGameLevel::GetLevelCell(int row, int column)
 {
 	return &m_cells[row][column];
 }
-
-
 
 CLevelCell* CGameLevel::VirtualCoordsToLevelCell(float x, float y)
 {

@@ -31,8 +31,8 @@ void CLevelCell::ShiftHorizontally(float xChange)
 	if (m_containedCharacter != nullptr) {
 		m_containedCharacter->ShiftHorizontally(xChange);
 	}
-	if (m_containedCharacter != nullptr) {
-		m_containedCharacter->ShiftHorizontally(xChange);
+	if (m_containedObject != nullptr) {
+		m_containedObject->ShiftHorizontally(xChange);
 	}
 }
 

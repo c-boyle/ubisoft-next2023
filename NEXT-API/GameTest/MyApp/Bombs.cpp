@@ -16,6 +16,7 @@ void CAxisBomb::Detonate()
 	bool rightBlocked = false;
 	bool upBlocked = false;
 	bool downBlocked = false;
+	CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol)->Explode();
 	for (int i = 1; i <= m_range; i++) {
 		if (!downBlocked) {
 			downBlocked = !CGameLevel::GetInstance().GetLevelCell(m_cellRow - i, m_cellCol)->Explode();

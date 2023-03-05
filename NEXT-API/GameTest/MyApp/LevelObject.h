@@ -16,7 +16,7 @@ public:
 	virtual bool Explode() = 0;
 	virtual bool BlocksCell() = 0;
 	virtual void Render();
-	void ShiftHorizontally(float xChange);
+	virtual void ShiftHorizontally(float xChange);
 
 protected:
 	virtual void Destroy();

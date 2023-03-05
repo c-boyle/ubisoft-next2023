@@ -24,9 +24,15 @@ bool CExplodeLogic::Explode(CLevelObject& object)
         object.GetPosition(row, col);
         object.Destroy();
         if (dropOnDestruction != nullptr) {
-            dropOnDestruction->Init(row, col);
-            std::shared_ptr<CLevelObject> item = std::move(dropOnDestruction);
-            CGameLevel::GetInstance().GetLevelCell(row, col)->SetContainedObject(std::move(item));
+            std::shared_ptr<CCharacterController> spawnedCharacter = std::dynamic_pointer_cast<CCharacterController>(dropOnDestruction);
+            if (spawnedCharacter != nullptr) {
+                CGameLevel::GetInstance().AddCharacter(spawnedCharacter, row, col);
+            }
+            else {
+                dropOnDestruction->Init(row, col);
+                std::shared_ptr<CLevelObject> object = std::move(dropOnDestruction);
+                CGameLevel::GetInstance().GetLevelCell(row, col)->SetContainedObject(std::move(object));
+            }
         }
         return true;
     }

@@ -29,18 +29,18 @@ CLevelObject* GetDoorItem() {
 	return new CLevelObject(false, std::unique_ptr<CSimpleSprite>(sp), nullptr, std::unique_ptr<COnPlayerPickupLogic>(increaseLevel));
 }
 
-CLevelObject* GetDoorBlock() {
-	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
-	auto explodeLogic = new CExplodeLogic(nullptr, std::shared_ptr<CLevelObject>(GetDoorItem()), 1, 100);
-	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
-}
-
 CEnemyController* GetWandererEnemy() {
 	auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
 	sp->SetColor(40.0F / 255.0F, 23.0F / 255.0F, 173.0F / 255.0F);
 	auto explodeLogic = new CExplodeLogic();
 	auto inputLogic = new CHugWallAIInput();
 	return new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic), std::unique_ptr<CHugWallAIInput>(inputLogic));
+}
+
+CLevelObject* GetDoorBlock() {
+	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
+	auto explodeLogic = new CExplodeLogic(nullptr, std::shared_ptr<CLevelObject>(GetWandererEnemy()), 1, 100);
+	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
 
 
@@ -106,7 +106,7 @@ void CGameLevel::Respawn()
 {
 	if (m_livesLeft == 0) {
 		GenerateLevel(0);
-		m_livesLeft = 1;
+		m_livesLeft = 0;
 	}
 	else {
 		RespawnPlayer();

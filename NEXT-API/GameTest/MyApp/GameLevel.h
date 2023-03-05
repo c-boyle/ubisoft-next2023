@@ -40,9 +40,9 @@ public:
 	CPlayerController& GetPlayer();
 	void AddScore(int score) { m_score += score; }
 	void AddLives(int lives) { m_livesLeft += lives; }
+	void AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col);
 
 private:
-	void AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col);
 	void RespawnPlayer();
 
 private:
@@ -52,7 +52,7 @@ private:
 	int m_currentDifficulty;
 	std::shared_ptr<CPlayerController> m_player;
 	CScoreboard m_scoreboard = CScoreboard(cellSize, APP_VIRTUAL_HEIGHT - cellSize);
-	int m_livesLeft = 1;
+	int m_livesLeft = 0;
 	float m_timeLeft = 200.0F * 1000.0F;
 	int m_score = 0;
 

@@ -1,4 +1,5 @@
 ﻿  GameTest.cpp
+  Bomb.cpp
   BombDispenser.cpp
   CharacterController.cpp
   EnemyController.cpp

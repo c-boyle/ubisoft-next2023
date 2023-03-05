@@ -18,7 +18,7 @@ public:
 	void AddContainedCharacter(std::shared_ptr<CCharacterController> characterToContain);
 
 	
-	bool Explode();
+	bool Explode(bool enemiesOnly = false);
 	bool Blocked();
 	void Render();
 	void OnPlayerPickup();

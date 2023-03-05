@@ -29,6 +29,22 @@ private:
 	int m_lives;
 };
 
+enum BombType;
+
+class CEditBombDispenserPickupLogic : public COnPlayerPickupLogic {
+public:
+	CEditBombDispenserPickupLogic(bool editBasic, BombType bombType, int addMaxBombs = 0, float cooldownMultiplier = 1.0F)
+		: m_editBasic(editBasic), m_cooldownMultiplier(cooldownMultiplier), m_addMaxBombs(addMaxBombs), m_bombType(bombType) {};
+	// Inherited via COnPlayerPickupLogic
+	virtual void OnPlayerPickup(CLevelObject& object) override;
+
+private:
+	bool m_editBasic;
+	float m_cooldownMultiplier;
+	int m_addMaxBombs;
+	BombType m_bombType;
+};
+
 #pragma endregion
 
 
@@ -41,7 +57,15 @@ public:
 
 private:
 	int m_range = 1;
+};
 
+class CAttackDetonateLogic : public CDetonateLogic {
+public:
+	CAttackDetonateLogic(int radius) : m_radius(radius) {}
+	virtual void Detonate(CLevelObject& object) override;
+
+private:
+	int m_radius = 1;
 };
 
 #pragma endregion

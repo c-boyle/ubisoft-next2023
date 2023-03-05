@@ -176,7 +176,10 @@ void CGameLevel::VirtualCoordsToCell(float x, float y, int& row, int& column)
 
 CLevelCell* CGameLevel::GetLevelCell(int row, int column)
 {
-	return &m_cells[row][column];
+	if (row >= 0 && row < numRows && column >= 0 && column < numCols) {
+		return &m_cells[row][column];
+	}
+	return nullptr;
 }
 
 CLevelCell* CGameLevel::VirtualCoordsToLevelCell(float x, float y)
@@ -220,8 +223,7 @@ CPlayerController& CGameLevel::GetPlayer()
 
 		m_player = std::shared_ptr<CPlayerController>(new CPlayerController(false, std::unique_ptr<CSimpleSprite>(sp), nullptr));
 		m_player->SetBasicDispenser(BombType::BASIC_BOMB);
-		m_player->SetSpecialDispenser(BombType::SUPERBOMB);
-		m_player->SetBasicDispenserMaxBombs(3);
+		m_player->SetSpecialDispenser(BombType::DIRTY_BOMB);
 	}
 	return *m_player;
 }

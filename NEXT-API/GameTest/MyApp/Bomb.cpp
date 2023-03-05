@@ -20,6 +20,9 @@ CBomb::CBomb(BombType type)
 		m_detonationTime = 4000.0F;
 		break;
 	case BombType::DIRTY_BOMB:
+		m_sprite->SetColor(0.0F, 1.0F, 0.0F);
+		detonationLogic = std::unique_ptr<CDetonateLogic>(new CAttackDetonateLogic(3));
+		m_detonationTime = 4000.0F;
 		break;
 	}
 	m_explodeLogic = std::unique_ptr<CExplodeLogic>(new CExplodeLogic(std::move(detonationLogic)));

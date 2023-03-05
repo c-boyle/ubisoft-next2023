@@ -10,8 +10,8 @@
 enum BombType {
 	BASIC_BOMB,
 	SUPERBOMB,
-	DIRTY_BOMB
-	
+	DIRTY_BOMB,
+	NONE
 };
 
 class CBomb : public CLevelObject {

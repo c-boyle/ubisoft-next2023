@@ -5,6 +5,7 @@
 #include "GameLogicSubclasses.h"
 #include "GameLevel.h"
 #include "CharacterController.h"
+#include "Bomb.h"
 
 #pragma region OnPlayerPickupLogics
 
@@ -18,6 +19,16 @@ void CAddLivesOnPlayerPickupLogic::OnPlayerPickup(CLevelObject& object)
 {
 	CGameLevel::GetInstance().AddLives(m_lives);
 	COnPlayerPickupLogic::OnPlayerPickup(object);
+}
+
+void CEditBombDispenserPickupLogic::OnPlayerPickup(CLevelObject& object)
+{
+	auto& dispenser = m_editBasic ? CGameLevel::GetInstance().GetPlayer().GetBasicDispenser() : CGameLevel::GetInstance().GetPlayer().GetSpecialDispenser();
+	dispenser.MultiplyCooldownMultiplier(m_cooldownMultiplier);
+	dispenser.SetMaxActiveBombs(dispenser.GetMaxActiveBombs() + m_addMaxBombs);
+	if (m_bombType != BombType::NONE) {
+		dispenser.SetBomb(m_bombType);
+	}
 }
 
 #pragma endregion
@@ -36,21 +47,53 @@ void CAxisDetonateLogic::Detonate(CLevelObject& object)
 	object.GetPosition(row, col);
 
 	CGameLevel::GetInstance().GetLevelCell(row, col)->Explode();
+	CLevelCell* cell;
 	for (int i = 1; i <= m_range; i++) {
 		if (!downBlocked) {
-			downBlocked = !CGameLevel::GetInstance().GetLevelCell(row - i, col)->Explode();
+			cell = CGameLevel::GetInstance().GetLevelCell(row - i, col);
+			if (cell != nullptr) {
+				downBlocked = !cell->Explode();
+			}
 		}
 		if (!upBlocked) {
-			upBlocked = !CGameLevel::GetInstance().GetLevelCell(row + i, col)->Explode();
+			cell = CGameLevel::GetInstance().GetLevelCell(row + i, col);
+			if (cell != nullptr) {
+				upBlocked = !cell->Explode();
+			}
 		}
 		if (!leftBlocked) {
-			leftBlocked = !CGameLevel::GetInstance().GetLevelCell(row, col - i)->Explode();
+			cell = CGameLevel::GetInstance().GetLevelCell(row, col - i);
+			if (cell != nullptr) {
+				leftBlocked = !cell->Explode();
+			}
 		}
 		if (!rightBlocked) {
-			rightBlocked = !CGameLevel::GetInstance().GetLevelCell(row, col + i)->Explode();
+			cell = CGameLevel::GetInstance().GetLevelCell(row, col + i);
+			if (cell != nullptr) {
+				rightBlocked = !cell->Explode();
+			}
 		}
 	}
 }
+
+void CAttackDetonateLogic::Detonate(CLevelObject& object)
+{
+	m_detonated = true;
+
+	int row, col;
+	object.GetPosition(row, col);
+
+	CLevelCell* cell;
+	for (int i = -m_radius; i < m_radius; i++) {
+		for (int j = -m_radius; j < m_radius; j++) {
+			cell = CGameLevel::GetInstance().GetLevelCell(row + i, col + j);
+			if (cell != nullptr) {
+				cell->Explode(true);
+			}
+		}
+	}
+}
+
 #pragma endregion
 
 #pragma region AIInputLogics

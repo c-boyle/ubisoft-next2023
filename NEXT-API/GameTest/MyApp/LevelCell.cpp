@@ -90,9 +90,16 @@ void CLevelCell::AddContainedCharacter(std::shared_ptr<CCharacterController> cha
 	}
 }
 
-bool CLevelCell::Explode()
+bool CLevelCell::Explode(bool enemiesOnly)
 {
 	for (auto it = m_containedCharacters.begin(); it != m_containedCharacters.end(); ) {
+		if (enemiesOnly) {
+			CEnemyController* enemy = dynamic_cast<CEnemyController*>((*it).get());
+			if (enemy == nullptr) {
+				++it;
+				continue;
+			}
+		}
 		if ((*it)->Explode()) {
 			it = m_containedCharacters.erase(it);
 		}
@@ -100,7 +107,7 @@ bool CLevelCell::Explode()
 			++it;
 		}
 	}
-	if (m_containedObject != nullptr) {
+	if (!enemiesOnly && m_containedObject != nullptr) {
 		return m_containedObject->Explode();
 	}
 	return true;

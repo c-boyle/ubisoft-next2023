@@ -14,7 +14,8 @@ public:
 	void SetDead(bool dead) { m_dead = dead; }
 	void SetBasicDispenser(BombType bombType);
 	void SetSpecialDispenser(BombType bombType);
-	void SetBasicDispenserMaxBombs(int maxBombs) { m_basicDispenser->SetMaxActiveBombs(maxBombs); }
+	CBombDispenser& GetBasicDispenser() { return *m_basicDispenser; }
+	CBombDispenser& GetSpecialDispenser() { return *m_specialDispenser; }
 
 	// Inherited via CLevelObject
 	virtual void ShiftHorizontally(float xChange) override {};

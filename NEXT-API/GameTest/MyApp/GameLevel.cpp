@@ -7,9 +7,8 @@
 #include <functional>
 #include <vector>
 #include <ctime>
-#include "EnemyController.h"
 #include "../App/app.h"
-#include "BombDispenser.h";
+#include "BombDispenser.h"
 #include "GameLogicSubclasses.h"
 
 CLevelObject* GetConcreteBlock() {
@@ -29,19 +28,21 @@ CLevelObject* GetDoorItem() {
 	return new CLevelObject(false, std::unique_ptr<CSimpleSprite>(sp), nullptr, std::unique_ptr<COnPlayerPickupLogic>(increaseLevel));
 }
 
-CEnemyController* GetWandererEnemy() {
+CEnemyController* CGameLevel::GetWandererEnemy() {
 	auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
 	sp->SetColor(40.0F / 255.0F, 23.0F / 255.0F, 173.0F / 255.0F);
 	auto explodeLogic = new CExplodeLogic();
-	auto inputLogic = new CHugWallAIInput();
-	return new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic), std::unique_ptr<CHugWallAIInput>(inputLogic));
+	auto inputLogic = new CAStarAIInput(m_player);
+	return new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic), std::unique_ptr<CAStarAIInput>(inputLogic));
 }
 
+/*
 CLevelObject* GetDoorBlock() {
 	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
 	auto explodeLogic = new CExplodeLogic(nullptr, std::shared_ptr<CLevelObject>(GetWandererEnemy()), 1, 100);
 	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
+*/
 
 
 //-----------------------------------------------------------------------------
@@ -83,7 +84,7 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 			}
 			else {
 				if (c > 4 && (rand() % 100) < 30) {
-					auto block = GetDoorBlock();
+					auto block = GetBrickBlock();
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}

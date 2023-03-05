@@ -4,13 +4,11 @@
 #include "stdafx.h"
 #include "AStar.h"
 #include "GameLevel.h"
-#include <vector>
-#include <unordered_map>
 #include <set>
 
 void CAstar::GetMove(int sourceRow, int sourceCol, int destRow, int destCol, int& moveX, int& moveY)
 {
-	Node startNode = Node(sourceRow, sourceCol, 0.0F, 0.0F);
+	Node startNode = Node(sourceRow, sourceCol, 0, 0);
 
 	std::unordered_map<Node, int, Node::Hash> nodeToCheapestPathCost;
 	std::unordered_map<Node, Node, Node::Hash> nodeToParentInCheapestPath;
@@ -31,13 +29,13 @@ void CAstar::GetMove(int sourceRow, int sourceCol, int destRow, int destCol, int
 		}
 	};
 
-	std::set<Node, decltype(cmp)> frontier;
+	std::set<Node, decltype(cmp)> frontier(cmp);
 	frontier.emplace(startNode);
 
 	while (!frontier.empty()) {
 		Node node = *(frontier.begin());
 
-		bool isGoal = node.Row == destRow && node.Row == destCol;
+		bool isGoal = node.Row == destRow && node.Col == destCol;
 		if (isGoal) {
 			Node moveNode = GetStartOfPath(nodeToParentInCheapestPath, node);
 			moveX = moveNode.MoveX;
@@ -47,19 +45,19 @@ void CAstar::GetMove(int sourceRow, int sourceCol, int destRow, int destCol, int
 
 		frontier.erase(node);
 
-		for (auto& successor : GetSuccessors(node, destRow, destCol)) {
+		for (auto& successor : GetSuccessors(node)) {
 			int dist = nodeToCheapestPathCost[node] + 1;
 			if (nodeToCheapestPathCost.count(successor) == 0 || dist < nodeToCheapestPathCost[successor]) {
 				nodeToParentInCheapestPath[successor] = node;
 				nodeToCheapestPathCost[successor] = dist;
 				nodeToBestGuessCost[successor] = dist + CalculateHeuristic(successor.Row, successor.Col, destRow, destCol);
+				frontier.emplace(successor);
 			}
-			frontier.emplace(successor);
 		}
 	}
 
-	moveX = 0.0F;
-	moveY = 0.0F;
+	moveX = 0;
+	moveY = 0;
 }
 
 int CAstar::CalculateHeuristic(int row, int col, int destRow, int destCol)
@@ -71,14 +69,14 @@ int CAstar::CalculateHeuristic(int row, int col, int destRow, int destCol)
 CAstar::Node CAstar::GetStartOfPath(std::unordered_map<Node, Node, Node::Hash> nodeToParentInCheapestPath, Node node)
 {
 	Node startNode = node;
-	while (nodeToParentInCheapestPath.count(node) > 0) {
+	while (node.MoveX != 0 && node.MoveY != 0) {
 		startNode = node;
 		node = nodeToParentInCheapestPath[node];
 	}
 	return startNode;
 }
 
-std::vector<CAstar::Node> CAstar::GetSuccessors(Node node, int destRow, int destCol)
+std::vector<CAstar::Node> CAstar::GetSuccessors(Node node)
 {
 	std::vector<Node> successors;
 
@@ -88,9 +86,9 @@ std::vector<CAstar::Node> CAstar::GetSuccessors(Node node, int destRow, int dest
 	newCol = node.Col - 1;
 	CLevelCell* cell = CGameLevel::GetInstance().GetLevelCell(newRow, newCol);
 	if (cell != nullptr && !cell->Blocked()) {
-		float moveX, moveY;
-		moveX = -1.0F;
-		moveY = 0.0F;
+		int moveX, moveY;
+		moveX = -1;
+		moveY = 0;
 		auto successor = Node(newRow, newCol, moveX, moveY);
 		successors.push_back(successor);
 	}
@@ -100,9 +98,9 @@ std::vector<CAstar::Node> CAstar::GetSuccessors(Node node, int destRow, int dest
 	newCol = node.Col + 1;
 	cell = CGameLevel::GetInstance().GetLevelCell(newRow, newCol);
 	if (cell != nullptr && !cell->Blocked()) {
-		float moveX, moveY;
-		moveX = 1.0F;
-		moveY = 0.0F;
+		int moveX, moveY;
+		moveX = 1;
+		moveY = 0;
 		auto successor = Node(newRow, newCol, moveX, moveY);
 		successors.push_back(successor);
 	}
@@ -112,9 +110,9 @@ std::vector<CAstar::Node> CAstar::GetSuccessors(Node node, int destRow, int dest
 	newCol = node.Col;
 	cell = CGameLevel::GetInstance().GetLevelCell(newRow, newCol);
 	if (cell != nullptr && !cell->Blocked()) {
-		float moveX, moveY;
-		moveX = 0.0F;
-		moveY = 1.0F;
+		int moveX, moveY;
+		moveX = 0;
+		moveY = 1;
 		auto successor = Node(newRow, newCol, moveX, moveY);
 		successors.push_back(successor);
 	}
@@ -124,9 +122,9 @@ std::vector<CAstar::Node> CAstar::GetSuccessors(Node node, int destRow, int dest
 	newCol = node.Col;
 	cell = CGameLevel::GetInstance().GetLevelCell(newRow, newCol);
 	if (cell != nullptr && !cell->Blocked()) {
-		float moveX, moveY;
-		moveX = 0.0F;
-		moveY = -1.0F;
+		int moveX, moveY;
+		moveX = 0;
+		moveY = -1;
 		auto successor = Node(newRow, newCol, moveX, moveY);
 		successors.push_back(successor);
 	}

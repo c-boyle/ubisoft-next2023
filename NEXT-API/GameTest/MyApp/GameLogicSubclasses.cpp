@@ -6,6 +6,7 @@
 #include "GameLevel.h"
 #include "CharacterController.h"
 #include "Bomb.h"
+#include "AStar.h"
 
 #pragma region OnPlayerPickupLogics
 
@@ -138,7 +139,13 @@ void CHugWallAIInput::PrefferedNewDir(int& x, int& y)
 
 void CAStarAIInput::DecideInput(CCharacterController& character)
 {
-
+	if (NeedNewInput(character)) {
+		int row, col;
+		character.GetPosition(row, col);
+		int targetRow, targetCol;
+		m_target->GetPosition(targetRow, targetCol);
+		CAstar::GetMove(row, col, targetRow, targetCol, m_dirX, m_dirY);
+	}
 }
 
 #pragma endregion

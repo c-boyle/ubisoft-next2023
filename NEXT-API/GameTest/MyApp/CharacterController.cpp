@@ -10,7 +10,7 @@ constexpr float speed = 1.3F;
 void CCharacterController::Update(float deltaTime)
 {
 	// sprite->Update(deltaTime);
-	HandleInput();
+	DecideInput();
 }
 
 void CCharacterController::Move(float moveX, float moveY)
@@ -46,8 +46,8 @@ void CCharacterController::Move(float moveX, float moveY)
 			CGameLevel::GetInstance().VirtualCoordsToCell(x, y, m_cellRow, m_cellCol);
 			auto newCell = CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol);
 			if (oldCell != newCell) {
-				newCell->SetContainedCharacter(std::enable_shared_from_this<CCharacterController>::shared_from_this());
-				oldCell->Clear(false);
+				newCell->AddContainedCharacter(std::enable_shared_from_this<CCharacterController>::shared_from_this());
+				oldCell->Clear(false, std::enable_shared_from_this<CCharacterController>::shared_from_this());
 			}
 		}
 	}
@@ -85,7 +85,6 @@ void CCharacterController::AnimateMoveY(float moveY)
 
 void CCharacterController::Destroy()
 {
-	CLevelObject::Destroy();
 	CGameLevel::GetInstance().RemoveCharacter(std::enable_shared_from_this<CCharacterController>::shared_from_this());
 }
 

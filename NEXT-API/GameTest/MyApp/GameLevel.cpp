@@ -3,7 +3,6 @@
 //---------------------------------------------------------------------------------
 #include "stdafx.h"
 #include "GameLevel.h"
-#include "PlayerController.h"
 #include <cmath>
 #include <functional>
 #include <vector>
@@ -54,7 +53,6 @@ CGameLevel& CGameLevel::GetInstance()
 	return level;
 }
 
-std::shared_ptr<CPlayerController> player = nullptr;
 bool generatedBefore = false;
 bool generationFrame = false;
 
@@ -90,24 +88,16 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}
 				else {
-					m_cells[r][c].Clear(true);
+					m_cells[r][c].Clear(true, true);
 				}
 			}
 		}
 	}
 
-	if (player == nullptr) {
-		auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
-		sp->SetColor(0.0F, 1.0F, 0.0F);
-		
-		player = std::shared_ptr<CPlayerController>(new CPlayerController(false, std::unique_ptr<CSimpleSprite>(sp), nullptr));
-		player->SetBasicDispenser(BombType::BASIC_BOMB);
-		player->SetSpecialDispenser(BombType::SUPERBOMB);
-		player->SetBasicDispenserMaxBombs(3);
-	}
+	
 	auto explodeLogic = new CExplodeLogic();
-	player->SetExplodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic));
-	AddCharacter(player, playerSpawnRow, playerSpawnCol);
+	GetPlayer().SetExplodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic));
+	AddCharacter(m_player, playerSpawnRow, playerSpawnCol);
 	
 	auto wandererEnemy = GetWandererEnemy();
 	AddCharacter(std::shared_ptr<CEnemyController>(wandererEnemy), 1, playerSpawnCol);
@@ -187,7 +177,7 @@ CLevelCell* CGameLevel::VirtualCoordsToLevelCell(float x, float y)
 void CGameLevel::AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col)
 {
 	character->Init(row, col);
-	m_cells[row][col].SetContainedCharacter(character);
+	m_cells[row][col].AddContainedCharacter(character);
 	m_activeCharacters.emplace(character);
 }
 
@@ -201,5 +191,19 @@ void CGameLevel::RemoveCharacter(std::shared_ptr<CCharacterController> character
 	else {
 		player->SetDead(true);
 	}
+}
+
+CPlayerController& CGameLevel::GetPlayer()
+{
+	if (m_player == nullptr) {
+		auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
+		sp->SetColor(0.0F, 1.0F, 0.0F);
+
+		m_player = std::shared_ptr<CPlayerController>(new CPlayerController(false, std::unique_ptr<CSimpleSprite>(sp), nullptr));
+		m_player->SetBasicDispenser(BombType::BASIC_BOMB);
+		m_player->SetSpecialDispenser(BombType::SUPERBOMB);
+		m_player->SetBasicDispenserMaxBombs(3);
+	}
+	return *m_player;
 }
 

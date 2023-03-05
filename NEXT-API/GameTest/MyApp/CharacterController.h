@@ -26,7 +26,7 @@ public:
 	virtual void Move(float moveX, float moveY);
 
 protected:
-	virtual void HandleInput() = 0;
+	virtual void DecideInput() = 0;
 
 private:
 	void AnimateMove(float moveX, float moveY);

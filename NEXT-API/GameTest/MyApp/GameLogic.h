@@ -40,7 +40,12 @@ private:
 
 class CAIInputLogic {
 public:
-	virtual void HandleInput(CCharacterController& character) = 0;
+	virtual void DecideInput(CCharacterController& character) = 0;
+
+protected:
+	virtual bool NeedNewInput(CCharacterController& character);
+	int m_dirX = -1;
+	int m_dirY = 0;
 	
 
 };

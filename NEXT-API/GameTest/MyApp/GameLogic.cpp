@@ -39,3 +39,19 @@ bool CExplodeLogic::GetDetonated()
     }
     return false;
 }
+
+bool CAIInputLogic::NeedNewInput(CCharacterController& character)
+{
+    float oldX, oldY;
+    character.GetPosition(oldX, oldY);
+    int oldRow, oldCol;
+    character.GetPosition(oldRow, oldCol);
+    character.Move(static_cast<float>(m_dirX), static_cast<float>(m_dirY));
+    float newX, newY;
+    character.GetPosition(newX, newY);
+    int newRow, newCol;
+    character.GetPosition(newRow, newCol);
+    bool notMoving = oldX == newX && oldY == newY;
+    bool freshCell = !notMoving && !CGameLevel::GetInstance().IsCenterOfCell(oldX, oldY) && CGameLevel::GetInstance().IsCenterOfCell(newX, newY);
+    return notMoving || freshCell;
+}

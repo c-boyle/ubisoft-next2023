@@ -8,13 +8,14 @@
 #include "LevelObject.h"
 #include "CharacterController.h"
 #include <memory>
+#include <unordered_set>
 
 constexpr int cellSize = 32;
 
 class CLevelCell {
 public:
 	void SetContainedObject(std::shared_ptr<CLevelObject> objectToContain) { m_containedObject = objectToContain; };
-	void SetContainedCharacter(std::shared_ptr<CCharacterController> characterToContain) { m_containedCharacter = std::move(characterToContain); }
+	void AddContainedCharacter(std::shared_ptr<CCharacterController> characterToContain);
 
 	
 	bool Explode();
@@ -22,11 +23,12 @@ public:
 	void Render();
 	void OnPlayerPickup();
 	void ShiftHorizontally(float xChange);
-	void Clear(bool clearObject, bool clearCharacter = true);
+	void Clear(bool clearObject, bool clearCharacter = false);
+	void Clear(bool clearObject, std::shared_ptr<CCharacterController> characterToClear);
 
 private:
 	std::shared_ptr<CLevelObject> m_containedObject = nullptr;
-	std::shared_ptr<CCharacterController> m_containedCharacter = nullptr;
+	std::unordered_set<std::shared_ptr<CCharacterController>> m_containedCharacters;
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include "PlayerController.h"
 #include "../App/app.h"
 #include "GameLevel.h"
+#include "EnemyController.h"
 
 constexpr int levelLeftBuffer = APP_VIRTUAL_WIDTH / 2;
 constexpr int levelRightBuffer = levelWidth - levelLeftBuffer;
@@ -13,7 +14,9 @@ void CPlayerController::Render()
 {
 	m_basicDispenser->Render();
 	m_specialDispenser->Render();
-	CLevelObject::Render();
+	if (!m_dead) {
+		CLevelObject::Render();
+	}
 }
 
 void CPlayerController::SetBasicDispenser(BombType bombType)
@@ -36,7 +39,7 @@ void CPlayerController::SetSpecialDispenser(BombType bombType)
 	}
 }
 
-void CPlayerController::HandleInput()
+void CPlayerController::DecideInput()
 {
 	if (m_dead) {
 		if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))

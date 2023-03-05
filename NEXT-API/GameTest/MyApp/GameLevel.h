@@ -8,6 +8,7 @@
 #include "LevelCell.h"
 #include "../App/AppSettings.h"
 #include <unordered_set>
+#include "PlayerController.h"
 
 constexpr int numRows = 13;
 constexpr int numCols = 35;
@@ -34,6 +35,7 @@ public:
 	float GetTotalShift() { return m_totalShift;  }
 	void RemoveCharacter(std::shared_ptr<CCharacterController> character);
 	int GetDifficulty() { return m_currentDifficulty; }
+	CPlayerController& GetPlayer();
 
 private:
 	void AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col);
@@ -43,6 +45,7 @@ private:
 	CLevelCell m_cells[numRows][numCols];
 	float m_totalShift;
 	int m_currentDifficulty;
+	std::shared_ptr<CPlayerController> m_player;
 
 };
 

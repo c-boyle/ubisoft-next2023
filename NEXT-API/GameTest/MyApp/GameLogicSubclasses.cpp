@@ -48,23 +48,14 @@ void CAxisDetonateLogic::Detonate(CLevelObject& object)
 
 #pragma region AIInputLogics
 
-void CHugWallAIInput::HandleInput(CCharacterController& character)
+void CHugWallAIInput::DecideInput(CCharacterController& character)
 {
-	float oldX, oldY;
-	character.GetPosition(oldX, oldY);
-	int oldRow, oldCol;
-	character.GetPosition(oldRow, oldCol);
-	character.Move(static_cast<float>(m_dirX), static_cast<float>(m_dirY));
-	float newX, newY;
-	character.GetPosition(newX, newY);
-	int newRow, newCol;
-	character.GetPosition(newRow, newCol);
-	bool notMoving = oldX == newX && oldY == newY;
-	bool freshCell = !notMoving && !CGameLevel::GetInstance().IsCenterOfCell(oldX, oldY) && CGameLevel::GetInstance().IsCenterOfCell(newX, newY);
-	if (notMoving || freshCell) {
+	if (NeedNewInput(character)) {
 		int newDirX, newDirY;
 		PrefferedNewDir(newDirX, newDirY);
-		if (!CGameLevel::GetInstance().GetLevelCell(newRow + newDirY, newCol + newDirX)->Blocked() || CGameLevel::GetInstance().GetLevelCell(newRow + m_dirY, newCol + m_dirX)->Blocked()) {
+		int row, col;
+		character.GetPosition(row, col);
+		if (!CGameLevel::GetInstance().GetLevelCell(row + newDirY, col + newDirX)->Blocked() || CGameLevel::GetInstance().GetLevelCell(row + m_dirY, col + m_dirX)->Blocked()) {
 			m_dirX = newDirX;
 			m_dirY = newDirY;
 		}

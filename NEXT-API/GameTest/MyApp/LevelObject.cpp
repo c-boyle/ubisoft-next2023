@@ -52,5 +52,5 @@ void CLevelObject::ShiftHorizontally(float xChange)
 void CLevelObject::Destroy()
 {
 	auto cell = CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol);
-	cell->Clear(true, true);
+	cell->Clear(true);
 }

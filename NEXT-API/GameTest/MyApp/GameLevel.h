@@ -32,6 +32,7 @@ public:
 	CLevelCell* VirtualCoordsToLevelCell(float x, float y);
 	float GetTotalShift() { return m_totalShift;  }
 	void RemoveCharacter(std::shared_ptr<CCharacterController> character);
+	int GetDifficulty() { return m_currentDifficulty; }
 
 private:
 	void AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col);
@@ -40,6 +41,7 @@ private:
 	std::unordered_set<std::shared_ptr<CCharacterController>> m_activeCharacters;
 	CLevelCell m_cells[numRows][numCols];
 	float m_totalShift;
+	int m_currentDifficulty;
 
 };
 

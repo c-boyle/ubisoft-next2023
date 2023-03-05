@@ -15,6 +15,7 @@ public:
 	/// <returns>True iff this object was exploded</returns>
 	virtual bool Explode() = 0;
 	virtual bool BlocksCell() = 0;
+	virtual void OnPlayerPickup() {};
 	virtual void Render();
 	virtual void ShiftHorizontally(float xChange);
 

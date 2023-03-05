@@ -190,6 +190,8 @@
     <ClInclude Include="MyApp\Bombs.h" />
     <ClInclude Include="MyApp\CharacterController.h" />
     <ClInclude Include="MyApp\GameLevel.h" />
+    <ClInclude Include="MyApp\Item.h" />
+    <ClInclude Include="MyApp\Items.h" />
     <ClInclude Include="MyApp\LevelObject.h" />
     <ClInclude Include="MyApp\LevelCell.h" />
     <ClInclude Include="MyApp\MyApp.h" />
@@ -212,6 +214,8 @@
     <ClCompile Include="MyApp\Bombs.cpp" />
     <ClCompile Include="MyApp\CharacterController.cpp" />
     <ClCompile Include="MyApp\GameLevel.cpp" />
+    <ClCompile Include="MyApp\Item.cpp" />
+    <ClCompile Include="MyApp\Items.cpp" />
     <ClCompile Include="MyApp\LevelCell.cpp" />
     <ClCompile Include="MyApp\LevelObject.cpp" />
     <ClCompile Include="MyApp\MyApp.cpp" />
@@ -222,6 +226,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="MyData\BasicBomb.bmp" />
+    <Image Include="MyData\BrickBlock.bmp" />
+    <Image Include="MyData\ConcreteBlock.bmp" />
+    <Image Include="MyData\DoorItem.bmp" />
+    <Image Include="MyData\Player.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

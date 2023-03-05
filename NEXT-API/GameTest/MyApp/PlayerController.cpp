@@ -47,6 +47,12 @@ void CPlayerController::HandleInput()
 		m_sprite->GetPosition(x, y);
 		m_specialDispenser->Dispense(x, y);
 	}
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_X, true))
+	{
+		float x, y;
+		m_sprite->GetPosition(x, y);
+		CGameLevel::GetInstance().VirtualCoordsToLevelCell(x, y)->OnPlayerPickup();
+	}
 }
 
 void CPlayerController::Update(float deltaTime)

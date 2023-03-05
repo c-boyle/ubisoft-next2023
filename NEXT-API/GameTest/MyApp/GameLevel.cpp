@@ -3,13 +3,13 @@
 //---------------------------------------------------------------------------------
 #include "stdafx.h"
 #include "GameLevel.h"
-#include "Block.h"
 #include "Blocks.h"
 #include "PlayerController.h"
 #include <cmath>
 #include <functional>
 #include <vector>
 #include <ctime>
+#include "Items.h"
 
 
 //-----------------------------------------------------------------------------
@@ -27,6 +27,7 @@ bool generationFrame = false;
 
 void CGameLevel::GenerateLevel(int difficultyLevel)
 {
+	m_currentDifficulty = difficultyLevel;
 	srand((unsigned int)time(NULL));
 	m_totalShift = 0.0F;
 	generationFrame = true;
@@ -34,16 +35,20 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 	for (int r = 0; r < numRows; r++) {
 		for (int c = 0; c < numCols; c++) {
 			// Put concrete blocks around edges
-			if (!generatedBefore && (r == 0 || c == 0 || r == numRows - 1 || c == numCols - 1)) {
-				auto block = new CConcreteBlock();
-				block->Init(r, c);
-				m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
+			if ((r == 0 || c == 0 || r == numRows - 1 || c == numCols - 1)) {
+				if (!generatedBefore) {
+					auto block = new CConcreteBlock();
+					block->Init(r, c);
+					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
+				}
 			}
 			// Put concrete blocks at odd rows and colums
-			else if (!generatedBefore && ((r + 1) % 2 == 1 && (c + 1) % 2 == 1)) {
-				auto block = new CConcreteBlock();
-				block->Init(r, c);
-				m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
+			else if (((r + 1) % 2 == 1 && (c + 1) % 2 == 1)) {
+				if (!generatedBefore) {
+					auto block = new CConcreteBlock();
+					block->Init(r, c);
+					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
+				}
 			}
 			else {
 				if (c > 4 && (rand() % 100) < 30) {
@@ -57,10 +62,12 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 			}
 		}
 	}
+
 	if (player == nullptr) {
 		player = std::make_shared<CPlayerController>();	
 	}
 	AddCharacter(player, playerSpawnRow, playerSpawnCol);
+	generatedBefore = true;
 }
 
 void CGameLevel::Render()

@@ -16,10 +16,11 @@ public:
 	void SetContainedObject(std::shared_ptr<CLevelObject> objectToContain) { m_containedObject = objectToContain; };
 	void SetContainedCharacter(std::shared_ptr<CCharacterController> characterToContain) { m_containedCharacter = std::move(characterToContain); }
 
-	// Inherited via ILevelObject
+	
 	bool Explode();
 	bool Blocked();
 	void Render();
+	void OnPlayerPickup();
 	void ShiftHorizontally(float xChange);
 	void Clear(bool clearObject, bool clearCharacter = true);
 

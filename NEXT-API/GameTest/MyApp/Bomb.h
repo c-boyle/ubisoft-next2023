@@ -7,12 +7,6 @@
 #include "..\stdafx.h"
 #include "LevelObject.h"
 
-enum BombType {
-	SUPERBOMB,
-	DIRTY_BOMB,
-	AXIS,
-};
-
 class CBomb : public CLevelObject {
 public:
 	CBomb(float detonationTime);

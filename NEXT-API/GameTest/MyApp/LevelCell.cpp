@@ -26,6 +26,16 @@ void CLevelCell::Render()
 	}
 }
 
+void CLevelCell::OnPlayerPickup()
+{
+	if (m_containedCharacter != nullptr) {
+		m_containedCharacter->OnPlayerPickup();
+	}
+	if (m_containedObject != nullptr) {
+		m_containedObject->OnPlayerPickup();
+	}
+}
+
 void CLevelCell::ShiftHorizontally(float xChange)
 {
 	if (m_containedCharacter != nullptr) {

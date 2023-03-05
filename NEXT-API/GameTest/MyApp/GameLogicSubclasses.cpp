@@ -8,9 +8,16 @@
 
 #pragma region OnPlayerPickupLogics
 
-void CIncreaseLevelOnPlayerPickupLogic::OnPlayerPickup()
+void CIncreaseLevelOnPlayerPickupLogic::OnPlayerPickup(CLevelObject& object)
 {
-	CGameLevel::GetInstance().GenerateLevel(CGameLevel::GetInstance().GetDifficulty() + m_levelIncrease);
+	CGameLevel::GetInstance().GenerateLevel(CGameLevel::GetInstance().GetDifficulty() + m_lives);
+	COnPlayerPickupLogic::OnPlayerPickup(object);
+}
+
+void CAddLivesOnPlayerPickupLogic::OnPlayerPickup(CLevelObject& object)
+{
+	CGameLevel::GetInstance().AddLives(m_lives);
+	COnPlayerPickupLogic::OnPlayerPickup(object);
 }
 
 #pragma endregion
@@ -87,5 +94,3 @@ void CHugWallAIInput::PrefferedNewDir(int& x, int& y)
 }
 
 #pragma endregion
-
-

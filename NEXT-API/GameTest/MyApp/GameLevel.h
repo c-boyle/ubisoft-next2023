@@ -37,6 +37,8 @@ public:
 	void RemoveCharacter(std::shared_ptr<CCharacterController> character);
 	int GetDifficulty() { return m_currentDifficulty; }
 	CPlayerController& GetPlayer();
+	void AddScore(int score) { m_score += score; }
+	void AddLives(int lives) { m_livesLeft += lives; }
 
 private:
 	void AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col);

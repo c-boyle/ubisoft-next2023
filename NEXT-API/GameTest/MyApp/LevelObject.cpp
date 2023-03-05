@@ -38,7 +38,7 @@ bool CLevelObject::Explode()
 void CLevelObject::OnPlayerPickup()
 {
 	if (m_onPlayerPickupLogic != nullptr) {
-		m_onPlayerPickupLogic->OnPlayerPickup();
+		m_onPlayerPickupLogic->OnPlayerPickup(*this);
 	}
 }
 

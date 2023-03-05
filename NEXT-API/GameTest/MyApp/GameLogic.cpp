@@ -7,14 +7,15 @@
 #include "LevelObject.h"
 #include "CharacterController.h"
 
-CExplodeLogic::CExplodeLogic(std::unique_ptr<CDetonateLogic> detonateLogic, std::shared_ptr<CLevelObject> dropOnDestruction, int durability) : m_detonateLogic(std::move(detonateLogic)),
-  m_dropOnDestruction(std::move(dropOnDestruction)), m_durability(durability) {}
+CExplodeLogic::CExplodeLogic(std::unique_ptr<CDetonateLogic> detonateLogic, std::shared_ptr<CLevelObject> dropOnDestruction, int durability, int score) : m_detonateLogic(std::move(detonateLogic)),
+  m_dropOnDestruction(std::move(dropOnDestruction)), m_durability(durability), m_score(score) {}
 
 CExplodeLogic::~CExplodeLogic() {}
 
 bool CExplodeLogic::Explode(CLevelObject& object)
 {
     if (--m_durability == 0) {
+        CGameLevel::GetInstance().AddScore(m_score);
         if (m_detonateLogic != nullptr) {
             m_detonateLogic->Detonate(object);
         }
@@ -54,4 +55,9 @@ bool CAIInputLogic::NeedNewInput(CCharacterController& character)
     bool notMoving = oldX == newX && oldY == newY;
     bool freshCell = !notMoving && !CGameLevel::GetInstance().IsCenterOfCell(oldX, oldY) && CGameLevel::GetInstance().IsCenterOfCell(newX, newY);
     return notMoving || freshCell;
+}
+
+void COnPlayerPickupLogic::OnPlayerPickup(CLevelObject& object)
+{
+    object.Destroy();
 }

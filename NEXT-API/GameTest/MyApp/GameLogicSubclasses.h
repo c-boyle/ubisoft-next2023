@@ -11,12 +11,22 @@
 
 class CIncreaseLevelOnPlayerPickupLogic : public COnPlayerPickupLogic {
 public:
-	CIncreaseLevelOnPlayerPickupLogic(int levelIncrease = 1) : m_levelIncrease(levelIncrease) {};
+	CIncreaseLevelOnPlayerPickupLogic(int levelIncrease = 1) : m_lives(levelIncrease) {};
 	// Inherited via COnPlayerPickupLogic
-	virtual void OnPlayerPickup() override;
+	virtual void OnPlayerPickup(CLevelObject& object) override;
 
 private:
-	int m_levelIncrease;
+	int m_lives;
+};
+
+class CAddLivesOnPlayerPickupLogic : public COnPlayerPickupLogic {
+public:
+	CAddLivesOnPlayerPickupLogic(int lives = 1) : m_lives(lives) {};
+	// Inherited via COnPlayerPickupLogic
+	virtual void OnPlayerPickup(CLevelObject& object) override;
+
+private:
+	int m_lives;
 };
 
 #pragma endregion
@@ -46,7 +56,6 @@ public:
 
 protected:
 	void PrefferedNewDir(int& x, int& y);
-
 };
 
 #pragma endregion

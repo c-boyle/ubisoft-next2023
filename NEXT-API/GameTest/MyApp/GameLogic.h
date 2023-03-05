@@ -21,12 +21,12 @@ protected:
 
 class COnPlayerPickupLogic {
 public:
-	virtual void OnPlayerPickup() = 0;
+	virtual void OnPlayerPickup(CLevelObject& object);
 };
 
 class CExplodeLogic {
 public:
-	CExplodeLogic(std::unique_ptr<CDetonateLogic> detonateLogic = nullptr, std::shared_ptr<CLevelObject> dropOnDestruction = nullptr, int durability = 1);
+	CExplodeLogic(std::unique_ptr<CDetonateLogic> detonateLogic = nullptr, std::shared_ptr<CLevelObject> dropOnDestruction = nullptr, int durability = 1, int score = 0);
 	virtual ~CExplodeLogic();
 	bool Explode(CLevelObject& detonatingObject);
 	bool GetDetonated();
@@ -34,6 +34,7 @@ public:
 private:
 	std::unique_ptr<CDetonateLogic> m_detonateLogic;
 	int m_durability;
+	int m_score;
 	std::shared_ptr<CLevelObject> m_dropOnDestruction;
 
 };

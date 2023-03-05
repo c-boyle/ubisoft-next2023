@@ -25,13 +25,13 @@ CLevelObject* GetBrickBlock() {
 
 CLevelObject* GetDoorItem() {
 	auto sp = App::CreateSprite(".\\MyData\\DoorItem.bmp", 1, 1);
-	auto increaseLevel = new CIncreaseLevelOnPlayerPickupLogic();
+	auto increaseLevel = new CAddLivesOnPlayerPickupLogic();
 	return new CLevelObject(false, std::unique_ptr<CSimpleSprite>(sp), nullptr, std::unique_ptr<COnPlayerPickupLogic>(increaseLevel));
 }
 
 CLevelObject* GetDoorBlock() {
 	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
-	auto explodeLogic = new CExplodeLogic(nullptr, std::shared_ptr<CLevelObject>(GetDoorItem()), 1);
+	auto explodeLogic = new CExplodeLogic(nullptr, std::shared_ptr<CLevelObject>(GetDoorItem()), 1, 100);
 	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
 
@@ -116,7 +116,7 @@ bool CGameLevel::IsCenterOfCell(float x, float y)
 
 void CGameLevel::Render()
 {
-	m_scoreboard.Render(m_timeLeft, m_score, m_livesLeft, m_currentDifficulty + 1);
+	m_scoreboard.Render(static_cast<int>(m_timeLeft / 1000.0F), m_score, m_livesLeft, m_currentDifficulty + 1);
 	for (int r = 0; r < numRows; r++) {
 		for (int c = 0; c < numCols; c++) {
 			m_cells[r][c].Render();
@@ -126,6 +126,7 @@ void CGameLevel::Render()
 
 void CGameLevel::Update(float deltaTime)
 {
+	m_timeLeft -= deltaTime;
 	for (auto& activeCharacter : m_activeCharacters) {
 		if (generationFrame) {
 			generationFrame = false;

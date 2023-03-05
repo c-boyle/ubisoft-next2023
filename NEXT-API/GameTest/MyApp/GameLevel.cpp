@@ -10,6 +10,7 @@
 #include <vector>
 #include <ctime>
 #include "Items.h"
+#include "EnemyController.h"
 
 
 //-----------------------------------------------------------------------------
@@ -52,7 +53,7 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 			}
 			else {
 				if (c > 4 && (rand() % 100) < 30) {
-					auto block = new CItemBlock(1, new CDoorItem());
+					auto block = new CBrickBlock(1);
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}
@@ -67,6 +68,9 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 		player = std::make_shared<CPlayerController>();	
 	}
 	AddCharacter(player, playerSpawnRow, playerSpawnCol);
+
+	AddCharacter(std::make_shared<CEnemyController>(), playerSpawnRow - 1, playerSpawnCol);
+
 	generatedBefore = true;
 }
 

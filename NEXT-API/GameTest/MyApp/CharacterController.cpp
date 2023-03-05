@@ -15,7 +15,7 @@ void CCharacterController::Update(float deltaTime)
 
 void CCharacterController::Move(float moveX, float moveY)
 {
-	if (moveX != 0.0F && moveY != 0.0F) {
+	if (moveX != 0.0F || moveY != 0.0F) {
 		moveX *= speed;
 		moveY *= speed;
 		AnimateMove(moveX, moveY);

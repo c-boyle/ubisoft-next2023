@@ -80,5 +80,7 @@ void CPlayerController::Move(float moveX, float moveY)
 
 CSimpleSprite* CPlayerController::GetSprite()
 {
-	return App::CreateSprite(".\\MyData\\Player.bmp", 2, 2);
+	auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
+	sp->SetColor(0.0F, 1.0F, 0.0F);
+	return sp;
 }

@@ -189,6 +189,7 @@
     <ClInclude Include="MyApp\BombDispenser.h" />
     <ClInclude Include="MyApp\Bombs.h" />
     <ClInclude Include="MyApp\CharacterController.h" />
+    <ClInclude Include="MyApp\EnemyController.h" />
     <ClInclude Include="MyApp\GameLevel.h" />
     <ClInclude Include="MyApp\Item.h" />
     <ClInclude Include="MyApp\Items.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="MyApp\BombDispenser.cpp" />
     <ClCompile Include="MyApp\Bombs.cpp" />
     <ClCompile Include="MyApp\CharacterController.cpp" />
+    <ClCompile Include="MyApp\EnemyController.cpp" />
     <ClCompile Include="MyApp\GameLevel.cpp" />
     <ClCompile Include="MyApp\Item.cpp" />
     <ClCompile Include="MyApp\Items.cpp" />

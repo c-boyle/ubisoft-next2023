@@ -38,4 +38,20 @@ private:
 #pragma endregion
 
 
+#pragma region AIInputLogics
+
+class CHugWallAIInput : public CAIInputLogic {
+public:
+	// Inherited via CAIInputLogic
+	virtual void HandleInput(CCharacterController& character) override;
+
+protected:
+	void PrefferedNewDir(int& x, int& y);
+	int m_dirX = -1;
+	int m_dirY = 0;
+
+};
+
+#pragma endregion
+
 #endif

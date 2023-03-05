@@ -22,6 +22,7 @@ class CGameLevel {
 public:
 	static CGameLevel& GetInstance();
 	void GenerateLevel(int difficultyLevel);
+	bool IsCenterOfCell(float x, float y);
 	void Render();
 	void Update(float deltaTime);
 	void ShiftLevelHorizontally(float xShift);

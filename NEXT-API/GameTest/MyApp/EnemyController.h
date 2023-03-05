@@ -8,10 +8,14 @@
 #include "CharacterController.h"
 
 class CEnemyController : public CCharacterController {
-	using CCharacterController::CCharacterController;
 public:
+	CEnemyController(bool isBlocker, std::unique_ptr<CSimpleSprite> sprite, std::unique_ptr<CExplodeLogic> explodeLogic,
+		std::unique_ptr<CAIInputLogic> aiInputLogic, std::unique_ptr<COnPlayerPickupLogic> onPlayerPickupLogic = nullptr);
 	// Inherited via CCharacterController
 	virtual void HandleInput() override;
+
+protected:
+	std::unique_ptr<CAIInputLogic> m_inputLogic;
 
 };
 

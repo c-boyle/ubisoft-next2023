@@ -3,9 +3,12 @@
 //---------------------------------------------------------------------------------
 #include "stdafx.h"
 #include "EnemyController.h"
-#include "../App/app.h"
+
+CEnemyController::CEnemyController(bool isBlocker, std::unique_ptr<CSimpleSprite> sprite, std::unique_ptr<CExplodeLogic> explodeLogic,
+	std::unique_ptr<CAIInputLogic> aiInputLogic, std::unique_ptr<COnPlayerPickupLogic> onPlayerPickupLogic)
+	: CCharacterController(isBlocker, std::move(sprite), std::move(explodeLogic), std::move(onPlayerPickupLogic)), m_inputLogic(std::move(aiInputLogic)) {};
 
 void CEnemyController::HandleInput()
 {
-	Move(0.0F, -1.0F);
+	m_inputLogic->HandleInput((*this));
 }

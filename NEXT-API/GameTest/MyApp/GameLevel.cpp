@@ -36,6 +36,14 @@ CLevelObject* GetDoorBlock() {
 	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
 
+CEnemyController* GetWandererEnemy() {
+	auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
+	sp->SetColor(40.0F / 255.0F, 23.0F / 255.0F, 173.0F / 255.0F);
+	auto explodeLogic = new CExplodeLogic();
+	auto inputLogic = new CHugWallAIInput();
+	return new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic), std::unique_ptr<CHugWallAIInput>(inputLogic));
+}
+
 
 //-----------------------------------------------------------------------------
 // Singleton
@@ -101,13 +109,19 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 	player->SetExplodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic));
 	AddCharacter(player, playerSpawnRow, playerSpawnCol);
 	
-	auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
-	sp->SetColor(1.0F, 0.0F, 0.0F);
-	explodeLogic = new CExplodeLogic();
-	auto enemy = new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
-	AddCharacter(std::shared_ptr<CEnemyController>(enemy), playerSpawnRow - 1, playerSpawnCol);
+	auto wandererEnemy = GetWandererEnemy();
+	AddCharacter(std::shared_ptr<CEnemyController>(wandererEnemy), 1, playerSpawnCol);
 
 	generatedBefore = true;
+}
+
+bool CGameLevel::IsCenterOfCell(float x, float y)
+{
+	int decimalX = abs(static_cast<int>(((x + m_totalShift) / cellSize) * 10)) % 10;
+	int decimalY = abs(static_cast<int>((y / cellSize) * 10)) % 10;
+	bool atCenterOfCellX = decimalX == 5;
+	bool atCenterOfCellY = decimalY == 5;
+	return atCenterOfCellX && atCenterOfCellY;
 }
 
 void CGameLevel::Render()

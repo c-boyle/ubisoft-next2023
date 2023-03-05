@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GameLogicSubclasses.h"
 #include "GameLevel.h"
+#include "CharacterController.h"
 
 #pragma region OnPlayerPickupLogics
 
@@ -43,6 +44,57 @@ void CAxisDetonateLogic::Detonate(CLevelObject& object)
 		}
 	}
 }
+#pragma endregion
+
+#pragma region AIInputLogics
+
+void CHugWallAIInput::HandleInput(CCharacterController& character)
+{
+	float oldX, oldY;
+	character.GetPosition(oldX, oldY);
+	int oldRow, oldCol;
+	character.GetPosition(oldRow, oldCol);
+	character.Move(static_cast<float>(m_dirX), static_cast<float>(m_dirY));
+	float newX, newY;
+	character.GetPosition(newX, newY);
+	int newRow, newCol;
+	character.GetPosition(newRow, newCol);
+	bool notMoving = oldX == newX && oldY == newY;
+	bool freshCell = !notMoving && !CGameLevel::GetInstance().IsCenterOfCell(oldX, oldY) && CGameLevel::GetInstance().IsCenterOfCell(newX, newY);
+	if (notMoving || freshCell) {
+		int newDirX, newDirY;
+		PrefferedNewDir(newDirX, newDirY);
+		if (!CGameLevel::GetInstance().GetLevelCell(newRow + newDirY, newCol + newDirX)->Blocked() || CGameLevel::GetInstance().GetLevelCell(newRow + m_dirY, newCol + m_dirX)->Blocked()) {
+			m_dirX = newDirX;
+			m_dirY = newDirY;
+		}
+	}
+}
+
+void CHugWallAIInput::PrefferedNewDir(int& x, int& y)
+{
+	if (m_dirX == -1 && m_dirY == 0) { // left
+			// Go down
+		x = 0;
+		y = -1;
+	}
+	else if (m_dirX == 0 && m_dirY == -1) { // down
+		// Go right
+		x = 1;
+		y = 0;
+	}
+	else if (m_dirX == 1 && m_dirY == 0) { // right
+		// do up
+		x = 0;
+		y = 1;
+	} 
+	else { // up
+		// Go left
+		x = -1;
+		y = 0;
+	}
+}
+
 #pragma endregion
 
 

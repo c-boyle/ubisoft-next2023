@@ -23,9 +23,9 @@ class CCharacterController : public CLevelObject, public std::enable_shared_from
 public:
 	virtual void Update(float deltaTime);
 	virtual void Destroy() override;
+	virtual void Move(float moveX, float moveY);
 
 protected:
-	virtual void Move(float moveX, float moveY);
 	virtual void HandleInput() = 0;
 
 private:

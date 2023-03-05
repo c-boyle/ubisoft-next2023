@@ -8,6 +8,7 @@
 #include <memory>
 
 class CLevelObject;
+class CCharacterController;
 
 class CDetonateLogic {
 public:
@@ -34,6 +35,13 @@ private:
 	std::unique_ptr<CDetonateLogic> m_detonateLogic;
 	int m_durability;
 	std::shared_ptr<CLevelObject> m_dropOnDestruction;
+
+};
+
+class CAIInputLogic {
+public:
+	virtual void HandleInput(CCharacterController& character) = 0;
+	
 
 };
 

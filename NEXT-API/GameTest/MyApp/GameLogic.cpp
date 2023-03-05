@@ -5,6 +5,7 @@
 #include "GameLogic.h"
 #include "GameLevel.h"
 #include "LevelObject.h"
+#include "CharacterController.h"
 
 CExplodeLogic::CExplodeLogic(std::unique_ptr<CDetonateLogic> detonateLogic, std::shared_ptr<CLevelObject> dropOnDestruction, int durability) : m_detonateLogic(std::move(detonateLogic)),
   m_dropOnDestruction(std::move(dropOnDestruction)), m_durability(durability) {}

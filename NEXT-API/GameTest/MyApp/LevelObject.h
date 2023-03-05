@@ -7,7 +7,7 @@
 #include "..\stdafx.h"
 #include "../App/SimpleSprite.h"
 #include <memory>
-#include "GameLogic.h"
+#include "GameLogicSubclasses.h"
 
 class CLevelObject {
 public:
@@ -16,6 +16,7 @@ public:
 	void Init(int row, int col);
 	void Init(float x, float y);
 	void GetPosition(int& row, int& col) { row = m_cellRow; col = m_cellCol; };
+	void GetPosition(float& x, float& y) { m_sprite->GetPosition(x, y); }
 	bool BlocksCell() { return m_isBlocker; }
 	bool Explode();
 	void OnPlayerPickup();

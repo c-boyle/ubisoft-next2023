@@ -25,7 +25,7 @@ CLevelObject* GetBrickBlock() {
 
 CLevelObject* GetDoorItem() {
 	auto sp = App::CreateSprite(".\\MyData\\DoorItem.bmp", 1, 1);
-	auto increaseLevel = new CAddLivesOnPlayerPickupLogic();
+	auto increaseLevel = new CIncreaseLevelOnPlayerPickupLogic();
 	return new CLevelObject(false, std::unique_ptr<CSimpleSprite>(sp), nullptr, std::unique_ptr<COnPlayerPickupLogic>(increaseLevel));
 }
 
@@ -94,15 +94,25 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 		}
 	}
 
-	
-	auto explodeLogic = new CExplodeLogic();
-	GetPlayer().SetExplodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic));
-	AddCharacter(m_player, playerSpawnRow, playerSpawnCol);
+	RespawnPlayer();
 	
 	auto wandererEnemy = GetWandererEnemy();
 	AddCharacter(std::shared_ptr<CEnemyController>(wandererEnemy), 1, playerSpawnCol);
 
 	generatedBefore = true;
+}
+
+void CGameLevel::Respawn()
+{
+	if (m_livesLeft == 0) {
+		GenerateLevel(0);
+		m_livesLeft = 1;
+	}
+	else {
+		RespawnPlayer();
+		--m_livesLeft;
+	}
+
 }
 
 bool CGameLevel::IsCenterOfCell(float x, float y)
@@ -181,6 +191,13 @@ void CGameLevel::AddCharacter(std::shared_ptr<CCharacterController> character, i
 	character->Init(row, col);
 	m_cells[row][col].AddContainedCharacter(character);
 	m_activeCharacters.emplace(character);
+}
+
+void CGameLevel::RespawnPlayer()
+{
+	auto explodeLogic = new CExplodeLogic();
+	GetPlayer().SetExplodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic));
+	AddCharacter(m_player, playerSpawnRow, playerSpawnCol);
 }
 
 void CGameLevel::RemoveCharacter(std::shared_ptr<CCharacterController> character)

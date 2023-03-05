@@ -24,6 +24,7 @@ class CGameLevel {
 public:
 	static CGameLevel& GetInstance();
 	void GenerateLevel(int difficultyLevel);
+	void Respawn();
 	bool IsCenterOfCell(float x, float y);
 	void Render();
 	void Update(float deltaTime);
@@ -42,6 +43,7 @@ public:
 
 private:
 	void AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col);
+	void RespawnPlayer();
 
 private:
 	std::unordered_set<std::shared_ptr<CCharacterController>> m_activeCharacters;

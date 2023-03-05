@@ -44,7 +44,7 @@ void CPlayerController::DecideInput()
 	if (m_dead) {
 		if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
 		{
-			CGameLevel::GetInstance().GenerateLevel(0);
+			CGameLevel::GetInstance().Respawn();
 			m_dead = false;
 		}
 		return;

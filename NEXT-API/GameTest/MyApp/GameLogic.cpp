@@ -22,7 +22,7 @@ bool CExplodeLogic::Explode(CLevelObject& object)
         object.GetPosition(row, col);
         object.Destroy();
         if (dropOnDestruction != nullptr) {
-            dropOnDestruction->Init(row, row);
+            dropOnDestruction->Init(row, col);
             std::shared_ptr<CLevelObject> item = std::move(dropOnDestruction);
             CGameLevel::GetInstance().GetLevelCell(row, col)->SetContainedObject(std::move(item));
         }

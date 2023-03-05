@@ -10,8 +10,8 @@
 #include <ctime>
 #include "EnemyController.h"
 #include "../App/app.h"
-#include "GameLogic.h"
 #include "BombDispenser.h";
+#include "GameLogicSubclasses.h"
 
 CLevelObject* GetConcreteBlock() {
 	auto sp = App::CreateSprite(".\\MyData\\ConcreteBlock.bmp", 1, 1);
@@ -24,11 +24,18 @@ CLevelObject* GetBrickBlock() {
 	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
 
+CLevelObject* GetDoorItem() {
+	auto sp = App::CreateSprite(".\\MyData\\DoorItem.bmp", 1, 1);
+	auto increaseLevel = new CIncreaseLevelOnPlayerPickupLogic();
+	return new CLevelObject(false, std::unique_ptr<CSimpleSprite>(sp), nullptr, std::unique_ptr<COnPlayerPickupLogic>(increaseLevel));
+}
+
 CLevelObject* GetDoorBlock() {
 	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
-	auto explodeLogic = new CExplodeLogic(nullptr, nullptr, 1);
+	auto explodeLogic = new CExplodeLogic(nullptr, std::shared_ptr<CLevelObject>(GetDoorItem()), 1);
 	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
+
 
 //-----------------------------------------------------------------------------
 // Singleton
@@ -70,7 +77,7 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 			}
 			else {
 				if (c > 4 && (rand() % 100) < 30) {
-					auto block = GetBrickBlock();
+					auto block = GetDoorBlock();
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}

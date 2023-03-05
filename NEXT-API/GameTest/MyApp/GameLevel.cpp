@@ -3,15 +3,25 @@
 //---------------------------------------------------------------------------------
 #include "stdafx.h"
 #include "GameLevel.h"
-#include "Blocks.h"
 #include "PlayerController.h"
 #include <cmath>
 #include <functional>
 #include <vector>
 #include <ctime>
-#include "Items.h"
 #include "EnemyController.h"
+#include "../App/app.h"
+#include "GameLogic.h"
 
+CLevelObject* GetConcreteBlock() {
+	auto sp = App::CreateSprite(".\\MyData\\ConcreteBlock.bmp", 1, 1);
+	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), nullptr);
+}
+
+CLevelObject* GetBrickBlock() {
+	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
+	auto explodeLogic = new CExplodeLogic(nullptr, nullptr, 1);
+	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), explodeLogic);
+}
 
 //-----------------------------------------------------------------------------
 // Singleton
@@ -38,7 +48,7 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 			// Put concrete blocks around edges
 			if ((r == 0 || c == 0 || r == numRows - 1 || c == numCols - 1)) {
 				if (!generatedBefore) {
-					auto block = new CConcreteBlock();
+					auto block = GetConcreteBlock();
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}
@@ -46,14 +56,14 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 			// Put concrete blocks at odd rows and colums
 			else if (((r + 1) % 2 == 1 && (c + 1) % 2 == 1)) {
 				if (!generatedBefore) {
-					auto block = new CConcreteBlock();
+					auto block = GetConcreteBlock();
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}
 			}
 			else {
 				if (c > 4 && (rand() % 100) < 30) {
-					auto block = new CBrickBlock(1);
+					auto block = GetBrickBlock();
 					block->Init(r, c);
 					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 				}
@@ -64,12 +74,20 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 		}
 	}
 
+	
 	if (player == nullptr) {
-		player = std::make_shared<CPlayerController>();	
+		auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
+		sp->SetColor(0.0F, 1.0F, 0.0F);
+		auto explodeLogic = new CExplodeLogic();
+		player = std::shared_ptr<CPlayerController>(new CPlayerController(false, std::unique_ptr<CSimpleSprite>(sp), explodeLogic));
 	}
 	AddCharacter(player, playerSpawnRow, playerSpawnCol);
-
-	AddCharacter(std::make_shared<CEnemyController>(), playerSpawnRow - 1, playerSpawnCol);
+	
+	auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
+	sp->SetColor(1.0F, 0.0F, 0.0F);
+	auto explodeLogic = new CExplodeLogic();
+	auto enemy = new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), nullptr);
+	AddCharacter(std::shared_ptr<CEnemyController>(enemy), playerSpawnRow - 1, playerSpawnCol);
 
 	generatedBefore = true;
 }
@@ -111,8 +129,8 @@ bool CGameLevel::IsBlocked(float x, float y)
 
 void CGameLevel::CellToVirtualCoords(int row, int col, float& x, float& y)
 {
-	y = row * cellSize + (cellSize / 2);
-	x = (col * cellSize + (cellSize / 2) - m_totalShift);
+	y = static_cast<float>(row * cellSize + (cellSize / 2));
+	x = static_cast<float>((col * cellSize + (cellSize / 2)) - m_totalShift);
 }
 
 void CGameLevel::VirtualCoordsToCell(float x, float y, int& row, int& column)

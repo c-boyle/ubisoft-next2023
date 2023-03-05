@@ -8,12 +8,10 @@
 #include "CharacterController.h"
 
 class CEnemyController : public CCharacterController {
+	using CCharacterController::CCharacterController;
 public:
 	// Inherited via CCharacterController
 	virtual void HandleInput() override;
-
-protected:
-	virtual CSimpleSprite* GetSprite() override;
 
 };
 

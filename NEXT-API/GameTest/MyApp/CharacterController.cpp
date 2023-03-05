@@ -46,7 +46,7 @@ void CCharacterController::Move(float moveX, float moveY)
 			CGameLevel::GetInstance().VirtualCoordsToCell(x, y, m_cellRow, m_cellCol);
 			auto newCell = CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol);
 			if (oldCell != newCell) {
-				newCell->SetContainedCharacter(shared_from_this());
+				newCell->SetContainedCharacter(std::enable_shared_from_this<CCharacterController>::shared_from_this());
 				oldCell->Clear(false);
 			}
 		}
@@ -86,17 +86,6 @@ void CCharacterController::AnimateMoveY(float moveY)
 void CCharacterController::Destroy()
 {
 	CLevelObject::Destroy();
-	CGameLevel::GetInstance().RemoveCharacter(shared_from_this());
-}
-
-bool CCharacterController::Explode()
-{
-	Destroy();
-	return true;
-}
-
-bool CCharacterController::BlocksCell()
-{
-	return false;
+	CGameLevel::GetInstance().RemoveCharacter(std::enable_shared_from_this<CCharacterController>::shared_from_this());
 }
 

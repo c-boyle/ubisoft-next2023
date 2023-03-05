@@ -8,8 +8,9 @@
 #include "Bomb.h"
 
 class CAxisBomb : public CBomb {
+	using CBomb::CBomb;
 public:
-	CAxisBomb(float detonationTime, int range);
+	//CAxisBomb(float detonationTime, int range);
 	// Inherited via CBomb
 	virtual std::unique_ptr<CBomb> GetCopy() override;
 	virtual void Detonate() override;

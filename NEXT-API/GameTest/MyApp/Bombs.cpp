@@ -7,7 +7,7 @@
 
 #pragma region AxisBomb
 
-CAxisBomb::CAxisBomb(float detonationTime, int range) : CBomb(detonationTime), m_range(range) { }
+//CAxisBomb::CAxisBomb(float detonationTime, int range) : CBomb(detonationTime), m_range(range) { }
 
 void CAxisBomb::Detonate()
 {
@@ -35,7 +35,7 @@ void CAxisBomb::Detonate()
 
 std::unique_ptr<CBomb> CAxisBomb::GetCopy()
 {
-	return std::make_unique<CAxisBomb>(CAxisBomb(m_detonationTime, m_range));
+	return std::unique_ptr<CAxisBomb>(new CAxisBomb(1.0F, nullptr, nullptr));
 }
 
 #pragma endregion

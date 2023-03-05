@@ -5,6 +5,9 @@
 #include "LevelObject.h"
 #include "GameLevel.h"
 
+CLevelObject::CLevelObject(bool isBlocker, std::unique_ptr<CSimpleSprite> sprite, CExplodeLogic *explodeLogic)
+	: m_isBlocker(isBlocker), m_explodeLogic(std::unique_ptr<CExplodeLogic>(explodeLogic)), m_sprite(std::move(sprite)) {}
+
 void CLevelObject::Init(int row, int col)
 {
 	float x, y;
@@ -16,7 +19,6 @@ void CLevelObject::Init(int row, int col)
 
 void CLevelObject::Init(float x, float y)
 {
-	m_sprite = std::unique_ptr<CSimpleSprite>(GetSprite());
 	m_sprite->SetPosition(x, y);
 	m_sprite->SetScale(1.0f);
 }
@@ -24,6 +26,11 @@ void CLevelObject::Init(float x, float y)
 void CLevelObject::Render()
 {
 	m_sprite->Draw();
+}
+
+bool CLevelObject::Explode()
+{
+	return m_explodeLogic != nullptr && m_explodeLogic->Explode(*this);
 }
 
 void CLevelObject::ShiftHorizontally(float xChange)

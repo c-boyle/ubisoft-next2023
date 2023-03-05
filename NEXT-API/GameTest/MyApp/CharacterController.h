@@ -19,12 +19,10 @@ enum
 
 class CCharacterController : public CLevelObject, public std::enable_shared_from_this<CCharacterController>
 {
+	using CLevelObject::CLevelObject;
 public:
 	virtual void Update(float deltaTime);
-	// Inherited via CLevelObject
 	virtual void Destroy() override;
-	virtual bool Explode() override;
-	virtual bool BlocksCell() override;
 
 protected:
 	virtual void Move(float moveX, float moveY);

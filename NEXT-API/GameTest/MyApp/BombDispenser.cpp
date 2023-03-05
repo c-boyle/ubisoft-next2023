@@ -4,19 +4,16 @@
 #include "stdafx.h"
 #include "BombDispenser.h"
 #include "GameLevel.h"
-#include "Bombs.h"
 #include <memory>
 
-void CBombDispenser::Dispense(float x, float y)
+void CBombDispenser::Dispense(int row, int col)
 {
 	if (m_activeBombs.size() < m_maxActiveBombs) {
-		int row, col;
-		CGameLevel::GetInstance().VirtualCoordsToCell(x, y, row, col);
 		auto cell = CGameLevel::GetInstance().GetLevelCell(row, col);
 		if (cell->Blocked()) {
 			return;
 		}
-		std::shared_ptr<CBomb> bomb = std::move(m_bomb->GetCopy());
+		std::shared_ptr<CBomb> bomb = std::shared_ptr<CBomb>(new CBomb(m_bombType));
 		bomb->Init(row, col);
 		m_activeBombs.insert(bomb);
 		cell->SetContainedObject(bomb);

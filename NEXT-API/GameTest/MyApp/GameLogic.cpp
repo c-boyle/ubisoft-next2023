@@ -17,13 +17,13 @@ bool CExplodeLogic::Explode(CLevelObject& object)
         if (m_detonateLogic != nullptr) {
             m_detonateLogic->Detonate(object);
         }
+        int row, col;
+        object.GetPosition(row, col);
+        auto dropOnDestruction = m_dropOnDestruction;
         object.Destroy();
-        if (m_dropOnDestruction != nullptr) {
-            int row, col;
-            object.GetPosition(row, col);
-            m_dropOnDestruction->Init(row, row);
+        if (dropOnDestruction != nullptr) {
+            dropOnDestruction->Init(row, row);
             std::shared_ptr<CLevelObject> item = std::move(m_dropOnDestruction);
-
             CGameLevel::GetInstance().GetLevelCell(row, col)->SetContainedObject(std::move(item));
         }
         return true;

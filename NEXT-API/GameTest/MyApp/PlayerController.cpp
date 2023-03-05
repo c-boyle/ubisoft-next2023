@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "PlayerController.h"
 #include "../App/app.h"
-#include "Bombs.h"
 #include "GameLevel.h"
 
 constexpr int levelLeftBuffer = APP_VIRTUAL_WIDTH / 2;
@@ -12,9 +11,29 @@ constexpr int levelRightBuffer = levelWidth - levelLeftBuffer;
 
 void CPlayerController::Render()
 {
-	//m_basicDispenser->Render();
-	//m_specialDispenser->Render();
+	m_basicDispenser->Render();
+	m_specialDispenser->Render();
 	CLevelObject::Render();
+}
+
+void CPlayerController::SetBasicDispenser(BombType bombType)
+{
+	if (m_basicDispenser == nullptr) {
+		m_basicDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(bombType));
+	}
+	else {
+		m_basicDispenser->SetBomb(bombType);
+	}
+}
+
+void CPlayerController::SetSpecialDispenser(BombType bombType)
+{
+	if (m_specialDispenser == nullptr) {
+		m_specialDispenser = std::unique_ptr<CBombDispenser>(new CBombDispenser(bombType));
+	}
+	else {
+		m_specialDispenser->SetBomb(bombType);
+	}
 }
 
 void CPlayerController::HandleInput()
@@ -31,29 +50,23 @@ void CPlayerController::HandleInput()
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
 	{
-		float x, y;
-		m_sprite->GetPosition(x, y);
-		//m_basicDispenser->Dispense(x, y);
+		m_basicDispenser->Dispense(m_cellRow, m_cellCol);
 	}
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, true))
 	{
-		float x, y;
-		m_sprite->GetPosition(x, y);
-		//m_specialDispenser->Dispense(x, y);
+		m_specialDispenser->Dispense(m_cellRow, m_cellCol);
 	}
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_X, true))
 	{
-		float x, y;
-		m_sprite->GetPosition(x, y);
-		CGameLevel::GetInstance().VirtualCoordsToLevelCell(x, y)->OnPlayerPickup();
+		CGameLevel::GetInstance().GetLevelCell(m_cellRow, m_cellCol)->OnPlayerPickup();
 	}
 }
 
 void CPlayerController::Update(float deltaTime)
 {
 	CCharacterController::Update(deltaTime);
-	//m_basicDispenser->Update(deltaTime);
-	//m_specialDispenser->Update(deltaTime);
+	m_basicDispenser->Update(deltaTime);
+	m_specialDispenser->Update(deltaTime);
 }
 
 void CPlayerController::Move(float moveX, float moveY)

@@ -11,14 +11,15 @@
 
 class CBombDispenser {
 public:
-	CBombDispenser(std::unique_ptr<CBomb> bomb, int maxActiveBombs) : m_bomb(std::move(bomb)), m_maxActiveBombs(maxActiveBombs) {};
-	void Dispense(float x, float y);
+	CBombDispenser(BombType bombType) : m_bombType(bombType) {}
+	void SetBomb(BombType bombType) { m_bombType = bombType; }
+	void Dispense(int row, int col);
 	void Update(float dt);
 	void Render();
 
 private:
 	std::unordered_set<std::shared_ptr<CBomb>> m_activeBombs;
-	std::unique_ptr<CBomb> m_bomb;
+	BombType m_bombType;
 	float m_cooldownMultiplier = 1.0F;
 	int m_maxActiveBombs = 1;
 };

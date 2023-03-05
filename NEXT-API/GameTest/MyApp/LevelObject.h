@@ -11,6 +11,7 @@
 
 class CLevelObject {
 public:
+	CLevelObject() = default;
 	CLevelObject(bool isBlocker, std::unique_ptr<CSimpleSprite> sprite, CExplodeLogic *explodeLogic);
 	void Init(int row, int col);
 	void Init(float x, float y);

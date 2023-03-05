@@ -185,7 +185,6 @@
     <ClInclude Include="App\TextureLoader.h" />
     <ClInclude Include="MyApp\Bomb.h" />
     <ClInclude Include="MyApp\BombDispenser.h" />
-    <ClInclude Include="MyApp\Bombs.h" />
     <ClInclude Include="MyApp\CharacterController.h" />
     <ClInclude Include="MyApp\EnemyController.h" />
     <ClInclude Include="MyApp\GameLevel.h" />
@@ -208,7 +207,6 @@
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="MyApp\Bomb.cpp" />
     <ClCompile Include="MyApp\BombDispenser.cpp" />
-    <ClCompile Include="MyApp\Bombs.cpp" />
     <ClCompile Include="MyApp\CharacterController.cpp" />
     <ClCompile Include="MyApp\EnemyController.cpp" />
     <ClCompile Include="MyApp\GameLevel.cpp" />

@@ -7,14 +7,19 @@
 #include "..\stdafx.h"
 #include "LevelObject.h"
 
+enum BombType {
+	BASIC_BOMB,
+	SUPERBOMB,
+	DIRTY_BOMB
+	
+};
+
 class CBomb : public CLevelObject {
-	using CLevelObject::CLevelObject;
 public:
+	CBomb(BombType type);
 	/// <returns>True iff bomb was detonated</returns>
 	bool Update(float dt);
-	virtual void Detonate() = 0;
 	virtual float GetDetonationTime() { return m_detonationTime; };
-	virtual std::unique_ptr<CBomb> GetCopy() = 0;
 
 protected:
 	float m_detonationTime; // Detonation time in ms.

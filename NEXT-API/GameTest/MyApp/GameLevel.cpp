@@ -11,6 +11,7 @@
 #include "EnemyController.h"
 #include "../App/app.h"
 #include "GameLogic.h"
+#include "BombDispenser.h";
 
 CLevelObject* GetConcreteBlock() {
 	auto sp = App::CreateSprite(".\\MyData\\ConcreteBlock.bmp", 1, 1);
@@ -80,6 +81,8 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 		sp->SetColor(0.0F, 1.0F, 0.0F);
 		auto explodeLogic = new CExplodeLogic();
 		player = std::shared_ptr<CPlayerController>(new CPlayerController(false, std::unique_ptr<CSimpleSprite>(sp), explodeLogic));
+		player->SetBasicDispenser(BombType::BASIC_BOMB);
+		player->SetSpecialDispenser(BombType::SUPERBOMB);
 	}
 	AddCharacter(player, playerSpawnRow, playerSpawnCol);
 	

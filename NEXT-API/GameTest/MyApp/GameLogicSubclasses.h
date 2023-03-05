@@ -16,6 +16,7 @@
 
 class CAxisDetonateLogic : public CDetonateLogic {
 public:
+	CAxisDetonateLogic(int range) : m_range(range) {}
 	virtual void Detonate(CLevelObject& object) override;
 
 private:

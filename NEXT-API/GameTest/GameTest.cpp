@@ -11,6 +11,7 @@
 #include "MyApp/PlayerController.h"
 #include "MyApp/GameLevel.h"
 #include "MyApp/MyApp.h"
+#include "MyApp/AStar.h"
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------

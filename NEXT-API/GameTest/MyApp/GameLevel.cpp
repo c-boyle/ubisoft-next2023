@@ -10,6 +10,7 @@
 #include "../App/app.h"
 #include "BombDispenser.h"
 #include "GameLogicSubclasses.h"
+#include "MyApp.h"
 
 CLevelObject* GetConcreteBlock() {
 	auto sp = App::CreateSprite(".\\MyData\\ConcreteBlock.bmp", 1, 1);
@@ -43,7 +44,6 @@ CLevelObject* GetDoorBlock() {
 	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
 }
 */
-
 
 //-----------------------------------------------------------------------------
 // Singleton
@@ -96,9 +96,6 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 	}
 
 	RespawnPlayer();
-	
-	auto wandererEnemy = GetWandererEnemy();
-	AddCharacter(std::shared_ptr<CEnemyController>(wandererEnemy), 1, playerSpawnCol);
 
 	generatedBefore = true;
 }
@@ -113,7 +110,6 @@ void CGameLevel::Respawn()
 		RespawnPlayer();
 		--m_livesLeft;
 	}
-
 }
 
 bool CGameLevel::IsCenterOfCell(float x, float y)
@@ -138,6 +134,9 @@ void CGameLevel::Render()
 void CGameLevel::Update(float deltaTime)
 {
 	m_timeLeft -= deltaTime;
+	if (m_timeLeft <= 0) {
+		Respawn();
+	}
 	for (auto& activeCharacter : m_activeCharacters) {
 		if (generationFrame) {
 			generationFrame = false;

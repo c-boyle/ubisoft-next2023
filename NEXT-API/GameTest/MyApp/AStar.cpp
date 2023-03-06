@@ -3,8 +3,8 @@
 //---------------------------------------------------------------------------------
 #include "stdafx.h"
 #include "AStar.h"
-#include "GameLevel.h"
 #include <set>
+#include "GameLevel.h"
 
 void CAstar::GetMove(int sourceRow, int sourceCol, int destRow, int destCol, int& moveX, int& moveY)
 {
@@ -62,7 +62,7 @@ void CAstar::GetMove(int sourceRow, int sourceCol, int destRow, int destCol, int
 
 int CAstar::CalculateHeuristic(int row, int col, int destRow, int destCol)
 {
-	int manhattanDistance = abs(row - destRow) + abs(col - destCol);
+	int manhattanDistance = abs(destRow - row) + abs(destCol - col);
 	return manhattanDistance;
 }
 
@@ -89,8 +89,7 @@ std::vector<CAstar::Node> CAstar::GetSuccessors(Node node)
 		int moveX, moveY;
 		moveX = -1;
 		moveY = 0;
-		auto successor = Node(newRow, newCol, moveX, moveY);
-		successors.push_back(successor);
+		successors.push_back(Node(newRow, newCol, moveX, moveY));
 	}
 
 	// Check right
@@ -101,8 +100,7 @@ std::vector<CAstar::Node> CAstar::GetSuccessors(Node node)
 		int moveX, moveY;
 		moveX = 1;
 		moveY = 0;
-		auto successor = Node(newRow, newCol, moveX, moveY);
-		successors.push_back(successor);
+		successors.push_back(Node(newRow, newCol, moveX, moveY));
 	}
 
 	// Check up
@@ -113,8 +111,7 @@ std::vector<CAstar::Node> CAstar::GetSuccessors(Node node)
 		int moveX, moveY;
 		moveX = 0;
 		moveY = 1;
-		auto successor = Node(newRow, newCol, moveX, moveY);
-		successors.push_back(successor);
+		successors.push_back(Node(newRow, newCol, moveX, moveY));
 	}
 
 	// Check down
@@ -125,8 +122,7 @@ std::vector<CAstar::Node> CAstar::GetSuccessors(Node node)
 		int moveX, moveY;
 		moveX = 0;
 		moveY = -1;
-		auto successor = Node(newRow, newCol, moveX, moveY);
-		successors.push_back(successor);
+		successors.push_back(Node(newRow, newCol, moveX, moveY));
 	}
 
 	return successors;

@@ -22,7 +22,7 @@ class CAstar {
 
 		struct Hash {
 			size_t operator()(const Node& node) const {
-				return static_cast<size_t>(node.Col + node.Row + static_cast<float>(node.MoveX + node.MoveY));
+				return static_cast<size_t>(node.Col + node.Row + static_cast<int>(node.MoveX) * 65 + static_cast<int>(node.MoveY) * 43);
 			}
 		};
 	};

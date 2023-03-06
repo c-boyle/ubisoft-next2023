@@ -42,7 +42,6 @@ public:
 	void AddScore(int score) { m_score += score; }
 	void AddLives(int lives) { m_livesLeft += lives; }
 	void AddCharacter(std::shared_ptr<CCharacterController> character, int row, int col);
-	CEnemyController* GetWandererEnemy();
 
 private:
 	void RespawnPlayer();

@@ -12,7 +12,7 @@
 
 void CIncreaseLevelOnPlayerPickupLogic::OnPlayerPickup(CLevelObject& object)
 {
-	CGameLevel::GetInstance().GenerateLevel(CGameLevel::GetInstance().GetDifficulty() + m_lives);
+	CGameLevel::GetInstance().GenerateLevel(CGameLevel::GetInstance().GetDifficulty() + m_levelIncrease);
 	COnPlayerPickupLogic::OnPlayerPickup(object);
 }
 
@@ -30,6 +30,7 @@ void CEditBombDispenserPickupLogic::OnPlayerPickup(CLevelObject& object)
 	if (m_bombType != BombType::NONE) {
 		dispenser.SetBomb(m_bombType);
 	}
+	COnPlayerPickupLogic::OnPlayerPickup(object);
 }
 
 #pragma endregion
@@ -143,7 +144,7 @@ void CAStarAIInput::DecideInput(CCharacterController& character)
 		int row, col;
 		character.GetPosition(row, col);
 		int targetRow, targetCol;
-		m_target->GetPosition(targetRow, targetCol);
+		CGameLevel::GetInstance().GetPlayer().GetPosition(targetRow, targetCol);
 		CAstar::GetMove(row, col, targetRow, targetCol, m_dirX, m_dirY);
 	}
 }

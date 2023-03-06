@@ -7,7 +7,7 @@
 
 CBomb::CBomb(BombType type)
 {
-	m_isBlocker = true;
+	m_isBlocker = false;
 	m_sprite = std::unique_ptr<CSimpleSprite>(new CSimpleSprite(".\\MyData\\BasicBomb.bmp", 1, 1));
 	std::unique_ptr<CDetonateLogic> detonationLogic;
 	switch (type) {

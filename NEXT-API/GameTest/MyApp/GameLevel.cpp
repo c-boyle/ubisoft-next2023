@@ -6,7 +6,6 @@
 #include <cmath>
 #include <functional>
 #include <vector>
-#include <ctime>
 #include "../App/app.h"
 #include "BombDispenser.h"
 #include "GameLogicSubclasses.h"
@@ -17,34 +16,6 @@ CLevelObject* GetConcreteBlock() {
 	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), nullptr);
 }
 
-CLevelObject* GetBrickBlock() {
-	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
-	auto explodeLogic = new CExplodeLogic(nullptr, nullptr, 1);
-	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
-}
-
-CLevelObject* GetDoorItem() {
-	auto sp = App::CreateSprite(".\\MyData\\DoorItem.bmp", 1, 1);
-	auto increaseLevel = new CIncreaseLevelOnPlayerPickupLogic();
-	return new CLevelObject(false, std::unique_ptr<CSimpleSprite>(sp), nullptr, std::unique_ptr<COnPlayerPickupLogic>(increaseLevel));
-}
-
-CEnemyController* CGameLevel::GetWandererEnemy() {
-	auto sp = App::CreateSprite(".\\MyData\\BaseCharacter.bmp", 2, 2);
-	sp->SetColor(40.0F / 255.0F, 23.0F / 255.0F, 173.0F / 255.0F);
-	auto explodeLogic = new CExplodeLogic();
-	auto inputLogic = new CAStarAIInput(m_player);
-	return new CEnemyController(false, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic), std::unique_ptr<CAStarAIInput>(inputLogic));
-}
-
-/*
-CLevelObject* GetDoorBlock() {
-	auto sp = App::CreateSprite(".\\MyData\\BrickBlock.bmp", 1, 1);
-	auto explodeLogic = new CExplodeLogic(nullptr, std::shared_ptr<CLevelObject>(GetWandererEnemy()), 1, 100);
-	return new CLevelObject(true, std::unique_ptr<CSimpleSprite>(sp), std::unique_ptr<CExplodeLogic>(explodeLogic));
-}
-*/
-
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
@@ -54,13 +25,13 @@ CGameLevel& CGameLevel::GetInstance()
 	return level;
 }
 
-bool generatedBefore = false;
 bool generationFrame = false;
 
 void CGameLevel::GenerateLevel(int difficultyLevel)
 {
+	m_timeLeft = 200.0F * 1000.0F;
 	m_currentDifficulty = difficultyLevel;
-	srand((unsigned int)time(NULL));
+	m_generator.Init();
 	m_totalShift = 0.0F;
 	generationFrame = true;
 	m_activeCharacters.clear();
@@ -68,42 +39,45 @@ void CGameLevel::GenerateLevel(int difficultyLevel)
 		for (int c = 0; c < numCols; c++) {
 			// Put concrete blocks around edges
 			if ((r == 0 || c == 0 || r == numRows - 1 || c == numCols - 1)) {
-				if (!generatedBefore) {
-					auto block = GetConcreteBlock();
-					block->Init(r, c);
-					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
-				}
+				auto block = GetConcreteBlock();
+				block->Init(r, c);
+				m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 			}
 			// Put concrete blocks at odd rows and colums
 			else if (((r + 1) % 2 == 1 && (c + 1) % 2 == 1)) {
-				if (!generatedBefore) {
-					auto block = GetConcreteBlock();
-					block->Init(r, c);
-					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
-				}
+				auto block = GetConcreteBlock();
+				block->Init(r, c);
+				m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
 			}
 			else {
-				if (c > 4 && (rand() % 100) < 30) {
-					auto block = GetBrickBlock();
-					block->Init(r, c);
-					m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(block));
-				}
-				else {
-					m_cells[r][c].Clear(true, true);
+				bool isSpawnReserved = (c == 1 && r == numRows - 2) || (c == 1 && r == numRows - 3) || (c == 2 && r == numRows - 2);
+				if (!isSpawnReserved) {
+					auto object = m_generator.GenerateRandomObject();
+					if (object == nullptr) {
+						m_cells[r][c].Clear(true, true);
+					}
+					else {
+						CCharacterController* character = dynamic_cast<CCharacterController*>(object);
+						if (character != nullptr) {
+							AddCharacter(std::shared_ptr<CCharacterController>(character), r, c);
+						}
+						else {
+							object->Init(r, c);
+							m_cells[r][c].SetContainedObject(std::shared_ptr<CLevelObject>(object));
+						}
+					}
 				}
 			}
 		}
 	}
 
 	RespawnPlayer();
-
-	generatedBefore = true;
 }
 
 void CGameLevel::Respawn()
 {
 	if (m_livesLeft == 0) {
-		GenerateLevel(0);
+		GenerateLevel(1);
 		m_livesLeft = 0;
 	}
 	else {
@@ -123,7 +97,7 @@ bool CGameLevel::IsCenterOfCell(float x, float y)
 
 void CGameLevel::Render()
 {
-	m_scoreboard.Render(static_cast<int>(m_timeLeft / 1000.0F), m_score, m_livesLeft, m_currentDifficulty + 1);
+	m_scoreboard.Render(static_cast<int>(m_timeLeft / 1000.0F), m_score, m_livesLeft, m_currentDifficulty);
 	for (int r = 0; r < numRows; r++) {
 		for (int c = 0; c < numCols; c++) {
 			m_cells[r][c].Render();
@@ -136,6 +110,7 @@ void CGameLevel::Update(float deltaTime)
 	m_timeLeft -= deltaTime;
 	if (m_timeLeft <= 0) {
 		Respawn();
+		return;
 	}
 	for (auto& activeCharacter : m_activeCharacters) {
 		if (generationFrame) {

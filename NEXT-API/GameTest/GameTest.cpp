@@ -12,6 +12,7 @@
 #include "MyApp/GameLevel.h"
 #include "MyApp/MyApp.h"
 #include "MyApp/AStar.h"
+#include <ctime>
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
@@ -27,7 +28,8 @@ constexpr int screenRightBuffer = APP_VIRTUAL_WIDTH - screenLeftBuffer;
 //------------------------------------------------------------------------
 void Init()
 {
-	CGameLevel::GetInstance().GenerateLevel(0);
+	srand((unsigned int)time(NULL));
+	CGameLevel::GetInstance().GenerateLevel(1);
 }
 
 //------------------------------------------------------------------------

@@ -11,12 +11,12 @@
 
 class CIncreaseLevelOnPlayerPickupLogic : public COnPlayerPickupLogic {
 public:
-	CIncreaseLevelOnPlayerPickupLogic(int levelIncrease = 1) : m_lives(levelIncrease) {};
+	CIncreaseLevelOnPlayerPickupLogic(int levelIncrease = 1) : m_levelIncrease(levelIncrease) {};
 	// Inherited via COnPlayerPickupLogic
 	virtual void OnPlayerPickup(CLevelObject& object) override;
 
 private:
-	int m_lives;
+	int m_levelIncrease;
 };
 
 class CAddLivesOnPlayerPickupLogic : public COnPlayerPickupLogic {

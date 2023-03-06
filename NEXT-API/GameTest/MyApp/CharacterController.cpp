@@ -5,8 +5,6 @@
 #include "CharacterController.h"
 #include "GameLevel.h"
 
-constexpr float speed = 1.3F;
-
 void CCharacterController::Update(float deltaTime)
 {
 	// sprite->Update(deltaTime);
@@ -16,8 +14,8 @@ void CCharacterController::Update(float deltaTime)
 void CCharacterController::Move(float moveX, float moveY)
 {
 	if (moveX != 0.0F || moveY != 0.0F) {
-		moveX *= speed;
-		moveY *= speed;
+		moveX *= m_speed;
+		moveY *= m_speed;
 		AnimateMove(moveX, moveY);
 		float x, y;
 		m_sprite->GetPosition(x, y);

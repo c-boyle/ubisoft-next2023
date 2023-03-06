@@ -191,6 +191,7 @@
     <ClInclude Include="MyApp\GameLevel.h" />
     <ClInclude Include="MyApp\GameLogic.h" />
     <ClInclude Include="MyApp\GameLogicSubclasses.h" />
+    <ClInclude Include="MyApp\LevelGenerator.h" />
     <ClInclude Include="MyApp\LevelObject.h" />
     <ClInclude Include="MyApp\LevelCell.h" />
     <ClInclude Include="MyApp\MyApp.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="MyApp\GameLogic.cpp" />
     <ClCompile Include="MyApp\GameLogicSubclasses.cpp" />
     <ClCompile Include="MyApp\LevelCell.cpp" />
+    <ClCompile Include="MyApp\LevelGenerator.cpp" />
     <ClCompile Include="MyApp\LevelObject.cpp" />
     <ClCompile Include="MyApp\MyApp.cpp" />
     <ClCompile Include="MyApp\PlayerController.cpp" />

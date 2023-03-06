@@ -11,15 +11,19 @@
 #include "PlayerController.h"
 #include "EnemyController.h"
 #include "Scoreboard.h"
+#include "LevelGenerator.h"
 
 constexpr int numRows = 13;
 constexpr int numCols = 35;
 constexpr int numVirtualRows = APP_VIRTUAL_HEIGHT / cellSize;
 constexpr int numVirtualCols = APP_VIRTUAL_WIDTH / cellSize;
 constexpr int levelWidth = numCols * cellSize;
+constexpr int cellCount = numRows * numCols;
+constexpr int availableCellCount = static_cast<int>(static_cast<float>(cellCount) * 0.62F) - 3;
 
 constexpr int playerSpawnRow = numRows - 2;
 constexpr int playerSpawnCol = 1;
+constexpr int maxLevels = 50;
 
 class CGameLevel {
 public:
@@ -45,6 +49,7 @@ public:
 
 private:
 	void RespawnPlayer();
+	CLevelGenerator m_generator;
 
 private:
 	std::unordered_set<std::shared_ptr<CCharacterController>> m_activeCharacters;
@@ -57,7 +62,7 @@ private:
 	float m_timeLeft = 200.0F * 1000.0F;
 	int m_score = 0;
 
-
+	friend class CLevelGenerator;
 };
 
 #endif

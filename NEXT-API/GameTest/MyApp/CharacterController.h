@@ -27,6 +27,7 @@ public:
 
 protected:
 	virtual void DecideInput() = 0;
+	float m_speed = 1.3F;
 
 private:
 	void AnimateMove(float moveX, float moveY);

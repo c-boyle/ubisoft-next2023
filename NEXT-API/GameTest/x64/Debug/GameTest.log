@@ -1,4 +1,7 @@
-﻿  AStar.cpp
+﻿  LevelGenerator.cpp
+C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\GameTest\MyApp\LevelGenerator.cpp(34,46): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\GameTest\MyApp\LevelGenerator.cpp(56,76): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\GameTest\MyApp\LevelGenerator.cpp(22): warning C4715: 'GetTypeToGenerate': not all control paths return a value
   GameTest.vcxproj -> C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\x64\Debug\GameTest.exe
   C:\Users\Caleb\Desktop\UbisoftNext\ubisoft-next2023\NEXT-API\\GameTest\glut\bin\x64\freeglut.dll
   1 File(s) copied
